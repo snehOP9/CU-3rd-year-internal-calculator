@@ -1861,6 +1861,16 @@
 
     function setCalculatorMode(mode) {
       state.calculatorMode = mode === "sgpa" ? "sgpa" : "internal";
+
+      if (state.calculatorMode === "internal") {
+        state.isSubjectFocused = false;
+        state.searchQuery = "";
+        if (elements.subjectSearch) {
+          elements.subjectSearch.value = "";
+        }
+        renderSubjectCards();
+      }
+
       persistState();
       renderModeVisibility();
     }
