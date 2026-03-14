@@ -821,7 +821,7 @@
     .sgpa-row,
     .sgpa-head {
       display: grid;
-      grid-template-columns: 90px 1fr 1fr auto;
+      grid-template-columns: 90px 1.2fr 0.9fr 0.9fr auto;
       gap: 8px;
       align-items: center;
       border: 1px solid var(--border);
@@ -1202,7 +1202,7 @@
       }
       .sgpa-row,
       .sgpa-head {
-        grid-template-columns: 66px 1fr 1fr auto;
+        grid-template-columns: 66px 1.1fr 0.9fr 0.9fr auto;
       }
       .header:hover,
       .panel:hover,
@@ -1295,8 +1295,8 @@
   <main class="app-shell">
     <header class="header">
       <div class="title-wrap">
-        <h1>CU 3rd Year CSE Total Internal Calculator</h1>
-        <p>Chandigarh University • Dynamic internal marks calculator by subject type</p>
+        <h1 id="appTitle">CU 3rd Year CSE Total Internal Calculator</h1>
+        <p id="appSubtitle">Chandigarh University • Dynamic internal marks calculator by subject type</p>
       </div>
       <button class="theme-btn" id="themeToggle" type="button">Theme: Light · Next Dark</button>
     </header>
@@ -1653,6 +1653,8 @@
       resultMeta: document.getElementById("resultMeta"),
       resultScore: document.getElementById("resultScore"),
       resultFormula: document.getElementById("resultFormula"),
+      appTitle: document.getElementById("appTitle"),
+      appSubtitle: document.getElementById("appSubtitle"),
       themeToggle: document.getElementById("themeToggle"),
       toastStack: document.getElementById("toastStack"),
       sgpaRows: document.getElementById("sgpaRows"),
@@ -1763,6 +1765,7 @@
     function createSgpaEntry() {
       return {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        subjectName: "",
         credits: "",
         grade: "",
       };
@@ -1782,9 +1785,13 @@
           ? String(item.credits)
           : "";
         const cleanedCredits = rawCredits.replace(/[^\d.]/g, "");
+        const subjectName = typeof item?.subjectName === "string"
+          ? item.subjectName.slice(0, 80)
+          : "";
         const grade = SGPA_GRADES.includes(item?.grade) ? item.grade : "";
         return {
           id: typeof item?.id === "string" && item.id ? item.id : createSgpaEntry().id,
+          subjectName,
           credits: cleanedCredits,
           grade,
         };
@@ -1810,6 +1817,7 @@
       const head = `
         <div class="sgpa-head">
           <span>#</span>
+          <span>Subject Name</span>
           <span>Credits</span>
           <span>Grade</span>
           <span>Action</span>
@@ -1819,6 +1827,14 @@
       const rows = state.sgpaEntries.map((entry, index) => `
         <div class="sgpa-row" data-row-id="${entry.id}">
           <div class="sgpa-idx">Subject ${index + 1}</div>
+          <input
+            type="text"
+            class="sgpa-subject"
+            autocomplete="off"
+            placeholder="Enter subject name"
+            value="${entry.subjectName || ""}"
+            data-row-id="${entry.id}"
+          />
           <input
             type="text"
             class="sgpa-credit"
@@ -1880,6 +1896,16 @@
       elements.internalSubjectSection.hidden = !isInternalMode;
       elements.internalSection.hidden = !isInternalMode;
       elements.sgpaSection.hidden = isInternalMode;
+
+      if (isInternalMode) {
+        setAnimatedText(elements.appTitle, "CU 3rd Year CSE Total Internal Calculator");
+        setAnimatedText(elements.appSubtitle, "Chandigarh University • Best internal marks calculator by subject type");
+        document.title = "CU 3rd Year CSE Total Internal Calculator";
+      } else {
+        setAnimatedText(elements.appTitle, "CU 3rd Year CSE SGPA Calculator");
+        setAnimatedText(elements.appSubtitle, "Chandigarh University • SGPA calculator with subject, credits and grades");
+        document.title = "CU 3rd Year CSE SGPA Calculator";
+      }
 
       elements.internalModeBtn.classList.toggle("active", isInternalMode);
       elements.sgpaModeBtn.classList.toggle("active", !isInternalMode);
@@ -2336,20 +2362,26 @@
       elements.sgpaRows.addEventListener("input", event => {
         const target = event.target;
         if (!(target instanceof HTMLInputElement)) return;
-        if (!target.classList.contains("sgpa-credit")) return;
 
         const rowId = target.dataset.rowId;
         if (!rowId) return;
-        const cleaned = target.value.replace(/[^\d.]/g, "");
-        const parts = cleaned.split(".");
-        const normalized = parts.length > 2
-          ? `${parts[0]}.${parts.slice(1).join("")}`
-          : cleaned;
-        target.value = normalized;
-
         const row = state.sgpaEntries.find(entry => entry.id === rowId);
         if (!row) return;
-        row.credits = normalized;
+
+        if (target.classList.contains("sgpa-credit")) {
+          const cleaned = target.value.replace(/[^\d.]/g, "");
+          const parts = cleaned.split(".");
+          const normalized = parts.length > 2
+            ? `${parts[0]}.${parts.slice(1).join("")}`
+            : cleaned;
+          target.value = normalized;
+          row.credits = normalized;
+        } else if (target.classList.contains("sgpa-subject")) {
+          row.subjectName = target.value.slice(0, 80);
+        } else {
+          return;
+        }
+
         persistState();
         renderSgpaSummary();
       });
