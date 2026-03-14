@@ -1,0 +1,2406 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CU 3rd Year CSE Total Internal Calculator</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: rgba(255, 255, 255, 0.65);
+      --surface-strong: rgba(255, 255, 255, 0.9);
+      --text: #101827;
+      --text-muted: #5b6474;
+      --border: rgba(16, 24, 39, 0.1);
+      --shadow: 0 16px 40px rgba(31, 41, 55, 0.16);
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.12);
+      --success: #0f9d58;
+      --danger: #dc2626;
+      --theory: #7c3aed;
+      --hybrid: #0ea5e9;
+      --practical: #16a34a;
+      --unknown: #6b7280;
+      --input-bg: rgba(255, 255, 255, 0.88);
+      --glow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+      --gradient: radial-gradient(circle at 15% 15%, #dbeafe 0, #eff6ff 30%, #f8fafc 58%, #f5f7fb 100%);
+      --blob-1: rgba(37, 99, 235, 0.24);
+      --blob-2: rgba(14, 165, 233, 0.2);
+      --radius-xl: 20px;
+      --radius-lg: 14px;
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #090d14;
+      --surface: rgba(14, 20, 33, 0.75);
+      --surface-strong: rgba(14, 20, 33, 0.95);
+      --text: #f3f4f6;
+      --text-muted: #9aa6b8;
+      --border: rgba(148, 163, 184, 0.26);
+      --shadow: 0 22px 50px rgba(0, 0, 0, 0.4);
+      --accent: #60a5fa;
+      --accent-soft: rgba(96, 165, 250, 0.18);
+      --success: #34d399;
+      --danger: #f87171;
+      --theory: #c084fc;
+      --hybrid: #38bdf8;
+      --practical: #4ade80;
+      --unknown: #94a3b8;
+      --input-bg: rgba(11, 17, 29, 0.9);
+      --glow: 0 0 0 4px rgba(96, 165, 250, 0.24);
+      --gradient: radial-gradient(circle at 20% 15%, #13243f 0, #0b1220 38%, #090d14 100%);
+      --blob-1: rgba(96, 165, 250, 0.25);
+      --blob-2: rgba(56, 189, 248, 0.18);
+    }
+
+    html[data-theme="sunset"] {
+      --bg: #211122;
+      --surface: rgba(45, 26, 45, 0.72);
+      --surface-strong: rgba(58, 32, 53, 0.9);
+      --text: #fff0f7;
+      --text-muted: #f3bfd9;
+      --border: rgba(255, 186, 217, 0.3);
+      --shadow: 0 24px 52px rgba(25, 8, 24, 0.55);
+      --accent: #fb7185;
+      --accent-soft: rgba(251, 113, 133, 0.2);
+      --success: #22c55e;
+      --danger: #f87171;
+      --theory: #f9a8d4;
+      --hybrid: #fda4af;
+      --practical: #86efac;
+      --unknown: #f9a8d4;
+      --input-bg: rgba(52, 26, 46, 0.9);
+      --glow: 0 0 0 4px rgba(251, 113, 133, 0.24);
+      --gradient: radial-gradient(circle at 20% 18%, #6b214f 0, #371431 38%, #211122 100%);
+      --blob-1: rgba(251, 113, 133, 0.28);
+      --blob-2: rgba(244, 114, 182, 0.24);
+    }
+
+    html[data-theme="forest"] {
+      --bg: #0d1a17;
+      --surface: rgba(16, 35, 30, 0.74);
+      --surface-strong: rgba(21, 47, 40, 0.92);
+      --text: #ecfdf5;
+      --text-muted: #9ed8c3;
+      --border: rgba(110, 231, 183, 0.24);
+      --shadow: 0 24px 52px rgba(4, 17, 13, 0.5);
+      --accent: #10b981;
+      --accent-soft: rgba(16, 185, 129, 0.2);
+      --success: #34d399;
+      --danger: #f87171;
+      --theory: #a7f3d0;
+      --hybrid: #67e8f9;
+      --practical: #4ade80;
+      --unknown: #86efac;
+      --input-bg: rgba(12, 32, 27, 0.92);
+      --glow: 0 0 0 4px rgba(16, 185, 129, 0.22);
+      --gradient: radial-gradient(circle at 16% 15%, #0d3a31 0, #0f2520 38%, #0d1a17 100%);
+      --blob-1: rgba(16, 185, 129, 0.27);
+      --blob-2: rgba(45, 212, 191, 0.2);
+    }
+
+    html[data-theme="royal"] {
+      --bg: #0f1026;
+      --surface: rgba(24, 27, 60, 0.74);
+      --surface-strong: rgba(29, 35, 75, 0.92);
+      --text: #eef2ff;
+      --text-muted: #c4b5fd;
+      --border: rgba(165, 180, 252, 0.27);
+      --shadow: 0 24px 56px rgba(5, 6, 20, 0.56);
+      --accent: #8b5cf6;
+      --accent-soft: rgba(139, 92, 246, 0.22);
+      --success: #34d399;
+      --danger: #f87171;
+      --theory: #c4b5fd;
+      --hybrid: #93c5fd;
+      --practical: #6ee7b7;
+      --unknown: #a5b4fc;
+      --input-bg: rgba(18, 22, 51, 0.9);
+      --glow: 0 0 0 4px rgba(139, 92, 246, 0.25);
+      --gradient: radial-gradient(circle at 18% 16%, #2d2f86 0, #181c47 35%, #0f1026 100%);
+      --blob-1: rgba(139, 92, 246, 0.28);
+      --blob-2: rgba(59, 130, 246, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--gradient), var(--bg);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      transition: background 250ms ease, color 250ms ease;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      width: 32vw;
+      height: 32vw;
+      min-width: 220px;
+      min-height: 220px;
+      border-radius: 999px;
+      background: var(--blob-1);
+      filter: blur(34px);
+      opacity: 0.7;
+      animation: floatBlob 14s var(--ease-smooth) infinite alternate;
+      pointer-events: none;
+    }
+
+    body::before {
+      top: -8vw;
+      right: -8vw;
+    }
+
+    body::after {
+      bottom: -10vw;
+      left: -10vw;
+      background: var(--blob-2);
+      animation-delay: 0.8s;
+    }
+
+    .app-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 36px;
+      display: grid;
+      gap: 18px;
+      animation: fadeIn 320ms var(--ease-smooth);
+    }
+
+    .header {
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      transition: transform 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth), border-color 220ms var(--ease-smooth);
+    }
+
+    .header:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .title-wrap h1 {
+      margin: 0;
+      font-size: clamp(1.28rem, 2.1vw, 2rem);
+      letter-spacing: 0.2px;
+      background: linear-gradient(120deg, var(--text) 25%, var(--accent) 45%, var(--text) 75%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: textSheen 5.5s linear infinite;
+    }
+
+    .title-wrap p {
+      margin: 6px 0 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      animation: subtitleFloat 7s var(--ease-smooth) infinite;
+    }
+
+    .theme-btn {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface-strong);
+      color: var(--text);
+      cursor: pointer;
+      padding: 9px 14px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      transition: transform 180ms var(--ease-smooth), border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .theme-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .theme-btn:active {
+      transform: translateY(0) scale(0.985);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .mode-switch {
+      display: inline-flex;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px;
+      background: var(--surface-strong);
+      width: fit-content;
+    }
+
+    .mode-btn {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all 180ms var(--ease-smooth);
+    }
+
+    .mode-btn:hover {
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .mode-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: var(--glow);
+    }
+
+    .panel {
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      transition: transform 220ms var(--ease-smooth), border-color 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth);
+    }
+
+    .panel:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 1.02rem;
+      letter-spacing: 0.2px;
+      animation: riseIn 280ms var(--ease-smooth);
+    }
+
+    .subtext {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: color 220ms var(--ease-smooth), transform 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth);
+    }
+
+    .panel:hover .subtext {
+      transform: translateX(2px);
+      opacity: 0.95;
+    }
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .subject-tools {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .subject-search {
+      flex: 1;
+      min-width: 220px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--input-bg);
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 170ms ease, box-shadow 170ms ease;
+    }
+
+    .subject-search:focus {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .subject-clear-btn {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface-strong);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 180ms var(--ease-smooth), border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .subject-clear-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .subject-restore-btn {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface-strong);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 180ms var(--ease-smooth), border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .subject-restore-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .subject-empty {
+      margin: 8px 2px 0;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .subject-card {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      background: var(--surface-strong);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 220ms var(--ease-smooth), border-color 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth), background 220ms var(--ease-smooth);
+      min-height: 98px;
+      display: grid;
+      gap: 6px;
+      align-content: start;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .subject-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 20%, var(--accent-soft) 50%, transparent 80%);
+      transform: translateX(-120%);
+      transition: transform 450ms var(--ease-smooth);
+      pointer-events: none;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .subject-card:hover::after {
+      transform: translateX(120%);
+    }
+
+    .subject-card.active {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-strong));
+    }
+
+    .subject-name {
+      margin: 0;
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth);
+    }
+
+    .subject-code {
+      margin: 0;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth);
+    }
+
+    .subject-card:hover .subject-name,
+    .subject-card:hover .subject-code {
+      transform: translateX(2px);
+    }
+
+    .badge {
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      display: inline-flex;
+      width: fit-content;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: transform 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth);
+      animation: badgePulse 4s var(--ease-smooth) infinite;
+    }
+
+    .badge.theory { color: var(--theory); }
+    .badge.hybrid { color: var(--hybrid); }
+    .badge.practical { color: var(--practical); }
+    .badge.unconfigured { color: var(--unknown); }
+
+    .content-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+
+    .subject-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface-strong);
+      padding: 12px;
+    }
+
+    .subject-meta {
+      display: grid;
+      gap: 4px;
+    }
+
+    .subject-meta h3 {
+      margin: 0;
+      font-size: 1rem;
+      transition: transform 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth);
+    }
+
+    .subject-meta p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: transform 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth);
+    }
+
+    .unconfigured-msg {
+      margin: 12px 0 0;
+      border-radius: 12px;
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      background: rgba(245, 158, 11, 0.12);
+      color: #d97706;
+      padding: 12px;
+      font-weight: 600;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+      animation: fadeIn 220ms ease;
+    }
+
+    .field {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px;
+      background: var(--surface-strong);
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      transition: border-color 180ms ease, transform 180ms var(--ease-smooth);
+    }
+
+    .field-enter {
+      animation: fieldIn 340ms var(--ease-smooth) both;
+      will-change: transform, opacity;
+    }
+
+    .field:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .field-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .field label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      line-height: 1.28;
+      transition: color 200ms var(--ease-smooth), transform 200ms var(--ease-smooth);
+    }
+
+    .field:hover label {
+      color: var(--accent);
+      transform: translateX(1px);
+    }
+
+    .max-mark {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 2px 8px;
+      white-space: nowrap;
+      transition: border-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth), transform 200ms var(--ease-smooth);
+    }
+
+    .field:hover .max-mark {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .field input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--input-bg);
+      color: var(--text);
+      padding: 10px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 170ms ease, box-shadow 170ms ease, transform 170ms ease;
+    }
+
+    .field input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+      transform: translateY(-1px);
+    }
+
+    .field input.invalid {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.16);
+    }
+
+    .error-msg {
+      margin: 0;
+      color: var(--danger);
+      font-size: 0.78rem;
+      min-height: 1em;
+      transition: opacity 180ms var(--ease-smooth), transform 180ms var(--ease-smooth);
+      opacity: 0.9;
+    }
+
+    .error-msg:not(:empty) {
+      animation: errorReveal 220ms var(--ease-smooth);
+    }
+
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .form-tools {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .toggle-row input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-xs {
+      min-width: 0;
+      padding: 8px 11px;
+      border-radius: 9px;
+      font-size: 0.85rem;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms var(--ease-smooth), filter 180ms var(--ease-smooth), box-shadow 180ms var(--ease-smooth), border-color 180ms var(--ease-smooth);
+      min-width: 128px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -140%;
+      width: 120%;
+      height: 100%;
+      background: linear-gradient(110deg, transparent 10%, rgba(255, 255, 255, 0.28) 50%, transparent 90%);
+      transition: left 420ms var(--ease-smooth);
+      pointer-events: none;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+      box-shadow: var(--glow);
+    }
+
+    .btn:hover:not(:disabled)::after {
+      left: 120%;
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(0) scale(0.985);
+    }
+
+    .btn-outline {
+      border-color: var(--border);
+      background: var(--surface-strong);
+      color: var(--text);
+    }
+
+    .btn-outline:hover:not(:disabled) {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+    }
+
+    .summary-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 10px;
+    }
+
+    .summary-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface-strong);
+      padding: 10px;
+      transition: transform 180ms var(--ease-smooth), border-color 180ms ease;
+    }
+
+    .summary-item:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .summary-item p {
+      margin: 0;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      transition: transform 200ms var(--ease-smooth);
+    }
+
+    .summary-item h4 {
+      margin: 6px 0 0;
+      font-size: 1.02rem;
+      font-weight: 700;
+      transition: transform 200ms var(--ease-smooth), letter-spacing 200ms var(--ease-smooth);
+    }
+
+    .summary-item:hover p,
+    .summary-item:hover h4 {
+      transform: translateX(1px);
+    }
+
+    .progress-wrap {
+      margin-top: 10px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      width: 100%;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.3);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), #14b8a6);
+      transition: width 220ms ease;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.35) 50%, transparent 80%);
+      animation: shimmer 2.3s linear infinite;
+    }
+
+    .formula-box {
+      margin-top: 12px;
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+      padding: 10px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      background: var(--surface-strong);
+    }
+
+    .hidden-ui {
+      display: none !important;
+    }
+
+    .sgpa-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sgpa-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sgpa-table {
+      display: grid;
+      gap: 8px;
+    }
+
+    .sgpa-row,
+    .sgpa-head {
+      display: grid;
+      grid-template-columns: 90px 1fr 1fr auto;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-strong);
+      padding: 8px;
+    }
+
+    .sgpa-head {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+    }
+
+    .sgpa-idx {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .sgpa-row input,
+    .sgpa-row select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--input-bg);
+      color: var(--text);
+      padding: 9px 10px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .sgpa-row input:focus,
+    .sgpa-row select:focus {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .sgpa-remove {
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: transparent;
+      color: var(--danger);
+      padding: 8px 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .sgpa-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 8px;
+    }
+
+    .sgpa-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-strong);
+      padding: 10px;
+    }
+
+    .sgpa-card p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .sgpa-card h4 {
+      margin: 6px 0 0;
+      font-size: 1.04rem;
+      font-weight: 800;
+    }
+
+    .result-card {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(160deg, var(--surface-strong), var(--surface));
+      padding: 14px;
+      animation: popIn 280ms ease;
+      box-shadow: var(--glow);
+      transition: transform 260ms var(--ease-smooth), border-color 260ms var(--ease-smooth), box-shadow 260ms var(--ease-smooth);
+    }
+
+    .result-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .result-main {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .result-main h2 {
+      margin: 0;
+      font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+      animation: riseIn 320ms var(--ease-smooth);
+    }
+
+    .result-main p {
+      margin: 6px 0 0;
+      color: var(--text-muted);
+      animation: riseIn 360ms var(--ease-smooth);
+    }
+
+    .result-score {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      color: var(--success);
+      text-shadow: 0 0 18px color-mix(in srgb, var(--success) 35%, transparent);
+      animation: scoreGlow 2.8s var(--ease-smooth) infinite;
+    }
+
+    .value-pop {
+      animation: valuePop 300ms var(--ease-smooth);
+    }
+
+    .small-note {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin-top: 8px;
+    }
+
+    .tooltip {
+      border-bottom: 1px dotted currentColor;
+      cursor: help;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin-top: 6px;
+      transition: letter-spacing 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth);
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      display: grid;
+      gap: 8px;
+      z-index: 1200;
+      pointer-events: none;
+    }
+
+    .toast {
+      border: 1px solid var(--border);
+      background: var(--surface-strong);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      font-size: 0.88rem;
+      min-width: 210px;
+      max-width: min(84vw, 340px);
+      animation: toastIn 280ms var(--ease-smooth);
+    }
+
+    .toast.success {
+      border-color: color-mix(in srgb, var(--success) 55%, var(--border));
+    }
+
+    .toast.error {
+      border-color: color-mix(in srgb, var(--danger) 55%, var(--border));
+    }
+
+    .footer-note:hover {
+      letter-spacing: 0.2px;
+      opacity: 1;
+    }
+
+    .text-fade-up {
+      animation: riseIn 300ms var(--ease-smooth);
+    }
+
+    .text-delay-1 {
+      animation-delay: 60ms;
+    }
+
+    .text-delay-2 {
+      animation-delay: 120ms;
+    }
+
+    ::selection {
+      background: var(--accent-soft);
+    }
+
+    *::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+      background-color: var(--text-muted);
+    }
+
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes floatBlob {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to { transform: translate3d(2vw, -2vw, 0) scale(1.08); }
+    }
+
+    @keyframes shimmer {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(100%); }
+    }
+
+    @keyframes valuePop {
+      0% { transform: translateY(2px) scale(0.985); opacity: 0.7; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes textSheen {
+      from { background-position: 0% 50%; }
+      to { background-position: 200% 50%; }
+    }
+
+    @keyframes scoreGlow {
+      0%, 100% { text-shadow: 0 0 14px color-mix(in srgb, var(--success) 28%, transparent); }
+      50% { text-shadow: 0 0 22px color-mix(in srgb, var(--success) 44%, transparent); }
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-1px); }
+    }
+
+    @keyframes subtitleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-1px); }
+    }
+
+    @keyframes errorReveal {
+      0% { opacity: 0; transform: translateY(-2px); }
+      100% { opacity: 0.9; transform: translateY(0); }
+    }
+
+    @keyframes fieldIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.992); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    @media (min-width: 1440px) {
+      .app-shell {
+        max-width: 1360px;
+        padding: 28px 24px 42px;
+      }
+      .content-grid {
+        grid-template-columns: 1.45fr 0.9fr;
+        gap: 20px;
+      }
+      .subject-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+      .field-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+    }
+
+    @media (min-width: 1000px) and (max-width: 1439px) {
+      .content-grid {
+        grid-template-columns: 1.35fr 0.95fr;
+      }
+    }
+
+    @media (max-width: 999px) {
+      .app-shell {
+        padding: 18px 14px 28px;
+        gap: 14px;
+      }
+      .header {
+        padding: 16px;
+      }
+      .content-grid {
+        gap: 14px;
+      }
+      .subject-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      .field-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .theme-btn {
+        width: 100%;
+        text-align: center;
+      }
+      .subject-info {
+        align-items: flex-start;
+      }
+      .mode-switch {
+        width: 100%;
+      }
+      .mode-btn {
+        flex: 1;
+      }
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .form-tools {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .quick-actions {
+        width: 100%;
+      }
+      .btn {
+        width: 100%;
+        min-width: 0;
+      }
+      .sgpa-row,
+      .sgpa-head {
+        grid-template-columns: 66px 1fr 1fr auto;
+      }
+      .header:hover,
+      .panel:hover,
+      .result-card:hover,
+      .subject-card:hover {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .app-shell {
+        padding: 14px 12px 24px;
+      }
+      .panel {
+        padding: 14px;
+      }
+      .field-grid,
+      .summary-grid,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+      .sgpa-row,
+      .sgpa-head {
+        grid-template-columns: 1fr;
+      }
+      .sgpa-idx {
+        text-align: left;
+      }
+      .sgpa-remove {
+        width: 100%;
+      }
+      .subject-search,
+      .subject-clear-btn,
+      .subject-restore-btn {
+        width: 100%;
+      }
+      .btn {
+        flex: 1;
+        min-width: 0;
+      }
+      .toast-stack {
+        right: 10px;
+        bottom: 10px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .app-shell {
+        padding: 10px 8px 18px;
+      }
+      .panel,
+      .header {
+        padding: 12px;
+      }
+      .section-title {
+        font-size: 0.97rem;
+      }
+      .subtext,
+      .subject-meta p {
+        font-size: 0.84rem;
+      }
+      .btn {
+        padding: 9px 10px;
+        font-size: 0.9rem;
+      }
+      .result-score {
+        font-size: clamp(1.2rem, 7vw, 1.5rem);
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+      .theme-btn,
+      .actions,
+      .subject-grid,
+      .footer-note {
+        display: none !important;
+      }
+      .panel {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        background: #fff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="header">
+      <div class="title-wrap">
+        <h1>CU 3rd Year CSE Total Internal Calculator</h1>
+        <p>Chandigarh University • Dynamic internal marks calculator by subject type</p>
+      </div>
+      <button class="theme-btn" id="themeToggle" type="button">Theme: Light · Next Dark</button>
+    </header>
+
+    <section class="panel" aria-label="Calculator mode selector">
+      <div class="mode-switch" role="tablist" aria-label="Calculator mode">
+        <button type="button" class="mode-btn active" id="internalModeBtn" role="tab" aria-selected="true">Internal Calculator</button>
+        <button type="button" class="mode-btn" id="sgpaModeBtn" role="tab" aria-selected="false">SGPA Calculator</button>
+      </div>
+    </section>
+
+    <section class="panel" id="internalSubjectSection" aria-labelledby="subjectsHeading">
+      <h2 class="section-title" id="subjectsHeading">Subject Selection</h2>
+      <p class="subtext">Select your subject to auto-load the right marking scheme.</p>
+      <div class="subject-tools">
+        <input id="subjectSearch" class="subject-search" type="search" placeholder="Search subject by name or code..." autocomplete="off" />
+        <button class="subject-clear-btn" id="subjectSearchClear" type="button">Clear</button>
+        <button class="subject-restore-btn" id="subjectRestoreBtn" type="button">Restore Subjects</button>
+      </div>
+      <p class="subject-empty" id="subjectEmpty" hidden>No subject found for this search.</p>
+      <div class="subject-grid" id="subjectGrid"></div>
+    </section>
+
+    <section class="panel content-grid" id="internalSection">
+      <div>
+        <h2 class="section-title">Marks Entry</h2>
+        <div class="subject-info" id="subjectInfo"></div>
+        <div id="unconfiguredMessage" class="unconfigured-msg" hidden>This subject’s internal marking scheme is not configured yet.</div>
+        <form id="marksForm" novalidate>
+          <div class="field-grid" id="fieldGrid"></div>
+          <div class="form-tools">
+            <label class="toggle-row" for="autoCalculate">
+              <input id="autoCalculate" type="checkbox" />
+              Auto calculate while typing
+            </label>
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" id="calculateBtn" disabled>Calculate</button>
+            <button type="button" class="btn btn-outline" id="resetBtn">Reset</button>
+            <button type="button" class="btn btn-outline" id="copyBtn" disabled>Copy Summary</button>
+            <button type="button" class="btn btn-outline" id="printBtn" disabled>Export / Print</button>
+            <button type="button" class="btn btn-outline btn-xs" id="fillMaxBtn">Fill Max</button>
+            <button type="button" class="btn btn-outline btn-xs" id="fillZeroBtn">Fill Zero</button>
+          </div>
+        </form>
+      </div>
+
+      <aside>
+        <h2 class="section-title">Calculation Summary</h2>
+        <p class="subtext">Live preview updates as you enter marks.</p>
+        <div class="summary-grid">
+          <article class="summary-item hidden-ui">
+            <p>Total Entered Marks</p>
+            <h4 id="totalEntered">0.00</h4>
+          </article>
+          <article class="summary-item hidden-ui">
+            <p>Maximum Possible</p>
+            <h4 id="maxPossible">0</h4>
+          </article>
+          <article class="summary-item">
+            <p>Scaled Marks</p>
+            <h4 id="scaledMarks">0.00</h4>
+          </article>
+          <article class="summary-item">
+            <p>Final Internal Marks</p>
+            <h4 id="finalMarks">0.00</h4>
+          </article>
+        </div>
+
+        <div class="progress-wrap">
+          <p class="subtext">Form completion progress</p>
+          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+
+        <div class="formula-box hidden-ui" id="formulaText" title="Formula based on selected subject type"></div>
+
+        <section class="result-card" id="resultCard" hidden>
+          <div class="result-main">
+            <div>
+              <h2 id="resultTitle">Final Internal Marks</h2>
+              <p id="resultMeta"></p>
+            </div>
+            <div class="result-score" id="resultScore"></div>
+          </div>
+          <p class="small-note hidden-ui" id="resultFormula"></p>
+        </section>
+      </aside>
+    </section>
+
+    <section class="panel sgpa-panel" id="sgpaSection" aria-labelledby="sgpaHeading" hidden>
+      <h2 class="section-title" id="sgpaHeading">SGPA Calculator</h2>
+
+      <div class="sgpa-toolbar">
+        <button type="button" class="btn btn-outline btn-xs" id="sgpaAddRowBtn">Add Subject Row</button>
+        <button type="button" class="btn btn-outline btn-xs" id="sgpaResetBtn">Reset SGPA</button>
+      </div>
+
+      <div class="sgpa-table" id="sgpaRows"></div>
+
+      <div class="sgpa-summary">
+        <article class="sgpa-card">
+          <p>Total Credits</p>
+          <h4 id="sgpaTotalCredits">0.00</h4>
+        </article>
+        <article class="sgpa-card">
+          <p>Total Credit Points</p>
+          <h4 id="sgpaTotalPoints">0.00</h4>
+        </article>
+        <article class="sgpa-card">
+          <p>SGPA</p>
+          <h4 id="sgpaValue">0.00</h4>
+        </article>
+      </div>
+    </section>
+
+    <p class="footer-note">Built for CU 3rd Year CSE students • Supports Theory, Hybrid, and Practical schemes • Made by Sneh</p>
+    <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "cu-internal-calculator-state-v1";
+    const THEMES = [
+      { id: "light", label: "Light" },
+      { id: "dark", label: "Dark" },
+      { id: "sunset", label: "Sunset" },
+      { id: "forest", label: "Forest" },
+      { id: "royal", label: "Royal" },
+    ];
+    const GRADE_POINTS = {
+      "A+": 10,
+      A: 9,
+      "B+": 8,
+      B: 7,
+      "C+": 6,
+      C: 5,
+    };
+    const SGPA_GRADES = Object.keys(GRADE_POINTS);
+
+    const SUBJECTS = [
+      {
+        id: "ai",
+        name: "Principles of Artificial Intelligence",
+        code: "23CST-306",
+        type: "theory",
+      },
+      {
+        id: "aptitude",
+        name: "Aptitude-IV",
+        code: "23TDT-362",
+        type: "aptitude",
+      },
+      {
+        id: "toc",
+        name: "Theory of Computation",
+        code: "23CST-316",
+        type: "theory",
+      },
+      {
+        id: "cc2",
+        name: "Competitive Coding-II",
+        code: "23CSP-308",
+        type: "practical",
+      },
+      {
+        id: "system-design",
+        name: "System Design",
+        code: "23CSH-314",
+        type: "hybrid",
+      },
+      {
+        id: "numerical-methods",
+        name: "Numerical Methods",
+        code: "23SMH-341",
+        type: "hybrid",
+      },
+      {
+        id: "cloud-computing",
+        name: "Cloud Computing",
+        code: "23CSH-307",
+        type: "hybrid",
+      },
+      {
+        id: "adp-ios",
+        name: "Advanced Design Principles for IOS",
+        code: "23CSH-315",
+        type: "hybrid",
+      },
+      {
+        id: "swift-frameworks",
+        name: "Application and Frameworks Development using Swift",
+        code: "23CSH-311",
+        type: "hybrid",
+      },
+      {
+        id: "fsd2",
+        name: "Full Stack Development - II",
+        code: "23CSH-309",
+        type: "hybrid",
+      },
+    ];
+
+    const SCHEMES = {
+      theory: {
+        scaleLabel: "/ 40",
+        formulaText: "Internal Marks = ((MST1 + MST2) / 2) + Assignment + Attendance + ((Surprise Test / 12) × 4) + Quiz",
+        fields: [
+          { key: "assignment", label: "Assignment / PBL", maxMarks: 10 },
+          { key: "attendance", label: "Attendance Marks", maxMarks: 2 },
+          { key: "mst1", label: "Mid-Semester Test-1", maxMarks: 20 },
+          { key: "quiz", label: "Quiz", maxMarks: 4 },
+          { key: "surprise", label: "Surprise Test", maxMarks: 12 },
+          { key: "mst2", label: "Mid-Semester Test-2", maxMarks: 20 },
+        ],
+        calculate(values) {
+          const mst1 = values.mst1;
+          const mst2 = values.mst2;
+          const assignment = values.assignment;
+          const attendance = values.attendance;
+          const surprise = values.surprise;
+          const quiz = values.quiz;
+          const final = ((mst1 + mst2) / 2) + assignment + attendance + ((surprise / 12) * 4) + quiz;
+          return {
+            totalEntered: assignment + attendance + mst1 + quiz + surprise + mst2,
+            maxPossible: 68,
+            scaled: final,
+            final,
+          };
+        },
+      },
+      aptitude: {
+        scaleLabel: "/ 44",
+        formulaText: "Internal Marks = ((MST1 + MST2) / 2) + Assignment + (Attendance / 2) + ((Surprise Test / 12) × 4) + Quiz",
+        fields: [
+          { key: "assignment", label: "Assignment / PBL", maxMarks: 12 },
+          { key: "attendance", label: "Attendance Marks", maxMarks: 4 },
+          { key: "mst1", label: "Mid-Semester Test-1", maxMarks: 20 },
+          { key: "surprise", label: "Surprise Test", maxMarks: 12 },
+          { key: "mst2", label: "Mid-Semester Test-2", maxMarks: 20 },
+          { key: "quiz", label: "Quiz", maxMarks: 6 },
+        ],
+        calculate(values) {
+          const mst1 = values.mst1;
+          const mst2 = values.mst2;
+          const assignment = values.assignment;
+          const attendance = values.attendance;
+          const surprise = values.surprise;
+          const quiz = values.quiz;
+          const final = ((mst1 + mst2) / 2) + assignment + (attendance / 2) + ((surprise / 12) * 4) + quiz;
+          return {
+            totalEntered: assignment + attendance + mst1 + surprise + mst2 + quiz,
+            maxPossible: 74,
+            scaled: final,
+            final,
+          };
+        },
+      },
+      hybrid: {
+        scaleLabel: "/ 70",
+        formulaText: "Internal Marks = (Total Marks Scored / 418) × 70",
+        fields: [
+          { key: "attendance", label: "Attendance Marks", maxMarks: 2 },
+          { key: "surprise", label: "Surprise Test", maxMarks: 12 },
+          { key: "practicalMst", label: "Practical MST", maxMarks: 10 },
+          { key: "worksheet1", label: "Practical Worksheet / Projects 1", maxMarks: 30 },
+          { key: "worksheet2", label: "Practical Worksheet / Projects 2", maxMarks: 30 },
+          { key: "worksheet3", label: "Practical Worksheet / Projects 3", maxMarks: 30 },
+          { key: "worksheet4", label: "Practical Worksheet / Projects 4", maxMarks: 30 },
+          { key: "worksheet5", label: "Practical Worksheet / Projects 5", maxMarks: 30 },
+          { key: "worksheet6", label: "Practical Worksheet / Projects 6", maxMarks: 30 },
+          { key: "worksheet7", label: "Practical Worksheet / Projects 7", maxMarks: 30 },
+          { key: "worksheet8", label: "Practical Worksheet / Projects 8", maxMarks: 30 },
+          { key: "worksheet9", label: "Practical Worksheet / Projects 9", maxMarks: 30 },
+          { key: "worksheet10", label: "Practical Worksheet / Projects 10", maxMarks: 30 },
+          { key: "quiz", label: "Quiz", maxMarks: 4 },
+          { key: "assignment", label: "Assignment / PBL", maxMarks: 10 },
+          { key: "mst1", label: "MST-1 Hybrid", maxMarks: 20 },
+          { key: "mst2", label: "MST-2 Hybrid", maxMarks: 20 },
+        ],
+        calculate(values) {
+          const totalEntered = Object.values(values).reduce((sum, val) => sum + val, 0);
+          const scaled = (totalEntered / 418) * 70;
+          return {
+            totalEntered,
+            maxPossible: 418,
+            scaled,
+            final: scaled,
+          };
+        },
+      },
+      practical: {
+        scaleLabel: "/ 60",
+        formulaText: "Internal Marks = (Total Experiment Marks Obtained / 300) × 45 + Mid-Term Test Marks",
+        fields: [
+          { key: "exp1", label: "Experiment-1", maxMarks: 30 },
+          { key: "exp2", label: "Experiment-2", maxMarks: 30 },
+          { key: "exp3", label: "Experiment-3", maxMarks: 30 },
+          { key: "exp4", label: "Experiment-4", maxMarks: 30 },
+          { key: "exp5", label: "Experiment-5", maxMarks: 30 },
+          { key: "exp6", label: "Experiment-6", maxMarks: 30 },
+          { key: "exp7", label: "Experiment-7", maxMarks: 30 },
+          { key: "exp8", label: "Experiment-8", maxMarks: 30 },
+          { key: "exp9", label: "Experiment-9", maxMarks: 30 },
+          { key: "exp10", label: "Experiment-10", maxMarks: 30 },
+          { key: "midTerm", label: "Mid-Term Test", maxMarks: 15 },
+        ],
+        calculate(values) {
+          const experiments = [
+            values.exp1, values.exp2, values.exp3, values.exp4, values.exp5,
+            values.exp6, values.exp7, values.exp8, values.exp9, values.exp10,
+          ].reduce((sum, score) => sum + score, 0);
+          const final = (experiments / 300) * 45 + values.midTerm;
+          return {
+            totalEntered: experiments + values.midTerm,
+            maxPossible: 315,
+            scaled: (experiments / 300) * 45,
+            final,
+          };
+        },
+      },
+    };
+
+    const elements = {
+      subjectGrid: document.getElementById("subjectGrid"),
+      subjectSearch: document.getElementById("subjectSearch"),
+      subjectSearchClear: document.getElementById("subjectSearchClear"),
+      subjectRestoreBtn: document.getElementById("subjectRestoreBtn"),
+      subjectEmpty: document.getElementById("subjectEmpty"),
+      internalModeBtn: document.getElementById("internalModeBtn"),
+      sgpaModeBtn: document.getElementById("sgpaModeBtn"),
+      internalSubjectSection: document.getElementById("internalSubjectSection"),
+      internalSection: document.getElementById("internalSection"),
+      sgpaSection: document.getElementById("sgpaSection"),
+      subjectInfo: document.getElementById("subjectInfo"),
+      unconfiguredMessage: document.getElementById("unconfiguredMessage"),
+      fieldGrid: document.getElementById("fieldGrid"),
+      marksForm: document.getElementById("marksForm"),
+      autoCalculate: document.getElementById("autoCalculate"),
+      fillMaxBtn: document.getElementById("fillMaxBtn"),
+      fillZeroBtn: document.getElementById("fillZeroBtn"),
+      calculateBtn: document.getElementById("calculateBtn"),
+      resetBtn: document.getElementById("resetBtn"),
+      copyBtn: document.getElementById("copyBtn"),
+      printBtn: document.getElementById("printBtn"),
+      totalEntered: document.getElementById("totalEntered"),
+      maxPossible: document.getElementById("maxPossible"),
+      scaledMarks: document.getElementById("scaledMarks"),
+      finalMarks: document.getElementById("finalMarks"),
+      progressFill: document.getElementById("progressFill"),
+      formulaText: document.getElementById("formulaText"),
+      resultCard: document.getElementById("resultCard"),
+      resultTitle: document.getElementById("resultTitle"),
+      resultMeta: document.getElementById("resultMeta"),
+      resultScore: document.getElementById("resultScore"),
+      resultFormula: document.getElementById("resultFormula"),
+      themeToggle: document.getElementById("themeToggle"),
+      toastStack: document.getElementById("toastStack"),
+      sgpaRows: document.getElementById("sgpaRows"),
+      sgpaAddRowBtn: document.getElementById("sgpaAddRowBtn"),
+      sgpaResetBtn: document.getElementById("sgpaResetBtn"),
+      sgpaTotalCredits: document.getElementById("sgpaTotalCredits"),
+      sgpaTotalPoints: document.getElementById("sgpaTotalPoints"),
+      sgpaValue: document.getElementById("sgpaValue"),
+    };
+
+    const state = {
+      selectedSubjectId: SUBJECTS[0].id,
+      values: {},
+      errors: {},
+      manualCalculated: false,
+      theme: "light",
+      searchQuery: "",
+      autoCalculate: false,
+      sgpaEntries: [],
+      hiddenSubjectIds: [],
+      calculatorMode: "internal",
+    };
+
+    function roundToTwo(value) {
+      return Math.round((value + Number.EPSILON) * 100) / 100;
+    }
+
+    function toDisplay(value) {
+      return roundToTwo(value).toFixed(2);
+    }
+
+    function getSelectedSubject() {
+      return SUBJECTS.find(subject => subject.id === state.selectedSubjectId) || SUBJECTS[0];
+    }
+
+    function getActiveScheme() {
+      const selected = getSelectedSubject();
+      return SCHEMES[selected.type] || null;
+    }
+
+    function getTypeBadgeClass(type) {
+      if (type === "theory") return "theory";
+      if (type === "aptitude") return "theory";
+      if (type === "hybrid") return "hybrid";
+      if (type === "practical") return "practical";
+      return "unconfigured";
+    }
+
+    function getTypeLabel(type) {
+      if (type === "theory") return "Theory";
+      if (type === "aptitude") return "Aptitude";
+      if (type === "hybrid") return "Hybrid";
+      if (type === "practical") return "Practical";
+      return "Not Configured";
+    }
+
+    function buildDefaultValuesForScheme(scheme) {
+      const defaults = {};
+      if (!scheme) return defaults;
+      scheme.fields.forEach(field => {
+        defaults[field.key] = "";
+      });
+      return defaults;
+    }
+
+    function isValidTheme(theme) {
+      return THEMES.some(item => item.id === theme);
+    }
+
+    function getThemeLabel(theme) {
+      const found = THEMES.find(item => item.id === theme);
+      return found ? found.label : "Light";
+    }
+
+    function getNextTheme(theme) {
+      const currentIndex = THEMES.findIndex(item => item.id === theme);
+      const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+      return THEMES[(safeIndex + 1) % THEMES.length].id;
+    }
+
+    function setAnimatedText(element, text) {
+      if (!element) return;
+      if (element.textContent !== text) {
+        element.textContent = text;
+        element.classList.remove("value-pop");
+        void element.offsetWidth;
+        element.classList.add("value-pop");
+      } else {
+        element.textContent = text;
+      }
+    }
+
+    function showToast(message, type = "info") {
+      if (!elements.toastStack) return;
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      elements.toastStack.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(6px) scale(0.985)";
+      }, 2200);
+      setTimeout(() => {
+        toast.remove();
+      }, 2500);
+    }
+
+    function createSgpaEntry() {
+      return {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        credits: "",
+        grade: "",
+      };
+    }
+
+    function getDefaultSgpaEntries() {
+      return Array.from({ length: 5 }, () => createSgpaEntry());
+    }
+
+    function normalizeSgpaEntries(entries) {
+      if (!Array.isArray(entries) || entries.length === 0) {
+        return getDefaultSgpaEntries();
+      }
+
+      const normalized = entries.slice(0, 20).map(item => {
+        const rawCredits = typeof item?.credits === "string" || typeof item?.credits === "number"
+          ? String(item.credits)
+          : "";
+        const cleanedCredits = rawCredits.replace(/[^\d.]/g, "");
+        const grade = SGPA_GRADES.includes(item?.grade) ? item.grade : "";
+        return {
+          id: typeof item?.id === "string" && item.id ? item.id : createSgpaEntry().id,
+          credits: cleanedCredits,
+          grade,
+        };
+      });
+
+      return normalized.length ? normalized : getDefaultSgpaEntries();
+    }
+
+    function getSgpaGradeOptions(selectedGrade) {
+      const options = ['<option value="">Select Grade</option>'];
+      SGPA_GRADES.forEach(grade => {
+        options.push(`<option value="${grade}" ${selectedGrade === grade ? "selected" : ""}>${grade}</option>`);
+      });
+      return options.join("");
+    }
+
+    function renderSgpa() {
+      if (!elements.sgpaRows) return;
+      if (!Array.isArray(state.sgpaEntries) || state.sgpaEntries.length === 0) {
+        state.sgpaEntries = getDefaultSgpaEntries();
+      }
+
+      const head = `
+        <div class="sgpa-head">
+          <span>#</span>
+          <span>Credits</span>
+          <span>Grade</span>
+          <span>Action</span>
+        </div>
+      `;
+
+      const rows = state.sgpaEntries.map((entry, index) => `
+        <div class="sgpa-row" data-row-id="${entry.id}">
+          <div class="sgpa-idx">Subject ${index + 1}</div>
+          <input
+            type="text"
+            class="sgpa-credit"
+            inputmode="decimal"
+            autocomplete="off"
+            placeholder="Credits"
+            value="${entry.credits}"
+            data-row-id="${entry.id}"
+          />
+          <select class="sgpa-grade" data-row-id="${entry.id}">
+            ${getSgpaGradeOptions(entry.grade)}
+          </select>
+          <button type="button" class="sgpa-remove" data-row-id="${entry.id}">Remove</button>
+        </div>
+      `).join("");
+
+      elements.sgpaRows.innerHTML = head + rows;
+      renderSgpaSummary();
+    }
+
+    function renderSgpaSummary() {
+      const totals = state.sgpaEntries.reduce((accumulator, entry) => {
+        const credits = Number(entry.credits);
+        const points = GRADE_POINTS[entry.grade];
+        const hasValidCredits = !Number.isNaN(credits) && credits > 0;
+        const hasValidGrade = typeof points === "number";
+
+        if (hasValidCredits && hasValidGrade) {
+          accumulator.totalCredits += credits;
+          accumulator.totalPoints += credits * points;
+        }
+        return accumulator;
+      }, { totalCredits: 0, totalPoints: 0 });
+
+      const sgpa = totals.totalCredits > 0 ? totals.totalPoints / totals.totalCredits : 0;
+      setAnimatedText(elements.sgpaTotalCredits, toDisplay(totals.totalCredits));
+      setAnimatedText(elements.sgpaTotalPoints, toDisplay(totals.totalPoints));
+      setAnimatedText(elements.sgpaValue, toDisplay(sgpa));
+    }
+
+    function setCalculatorMode(mode) {
+      state.calculatorMode = mode === "sgpa" ? "sgpa" : "internal";
+      persistState();
+      renderModeVisibility();
+    }
+
+    function renderModeVisibility() {
+      const isInternalMode = state.calculatorMode === "internal";
+      elements.internalSubjectSection.hidden = !isInternalMode;
+      elements.internalSection.hidden = !isInternalMode;
+      elements.sgpaSection.hidden = isInternalMode;
+
+      elements.internalModeBtn.classList.toggle("active", isInternalMode);
+      elements.sgpaModeBtn.classList.toggle("active", !isInternalMode);
+      elements.internalModeBtn.setAttribute("aria-selected", String(isInternalMode));
+      elements.sgpaModeBtn.setAttribute("aria-selected", String(!isInternalMode));
+
+      if (isInternalMode) {
+        renderSummary(!state.autoCalculate);
+      } else {
+        renderSgpaSummary();
+      }
+    }
+
+    function fillValues(mode) {
+      const scheme = getActiveScheme();
+      if (!scheme) return;
+      scheme.fields.forEach(field => {
+        state.values[field.key] = mode === "max" ? String(field.maxMarks) : "0";
+      });
+      state.errors = {};
+      state.manualCalculated = state.autoCalculate;
+      persistState();
+      render();
+      showToast(mode === "max" ? "Filled with maximum marks." : "Filled with zero marks.", "success");
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        if (saved && typeof saved === "object") {
+          if (typeof saved.selectedSubjectId === "string" && SUBJECTS.some(subject => subject.id === saved.selectedSubjectId)) {
+            state.selectedSubjectId = saved.selectedSubjectId;
+          }
+          if (saved.values && typeof saved.values === "object") {
+            state.values = saved.values;
+          }
+          if (isValidTheme(saved.theme)) {
+            state.theme = saved.theme;
+          }
+          if (typeof saved.autoCalculate === "boolean") {
+            state.autoCalculate = saved.autoCalculate;
+          }
+          state.sgpaEntries = normalizeSgpaEntries(saved.sgpaEntries);
+          if (Array.isArray(saved.hiddenSubjectIds)) {
+            state.hiddenSubjectIds = saved.hiddenSubjectIds.filter(id => SUBJECTS.some(subject => subject.id === id));
+          }
+          if (saved.calculatorMode === "internal" || saved.calculatorMode === "sgpa") {
+            state.calculatorMode = saved.calculatorMode;
+          }
+        }
+      } catch {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+
+    function persistState() {
+      const payload = {
+        selectedSubjectId: state.selectedSubjectId,
+        values: state.values,
+        theme: state.theme,
+        autoCalculate: state.autoCalculate,
+        sgpaEntries: state.sgpaEntries,
+        hiddenSubjectIds: state.hiddenSubjectIds,
+        calculatorMode: state.calculatorMode,
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    }
+
+    function setTheme(theme) {
+      state.theme = isValidTheme(theme) ? theme : "light";
+      document.documentElement.setAttribute("data-theme", state.theme);
+      elements.themeToggle.textContent = `Theme: ${getThemeLabel(state.theme)} · Next ${getThemeLabel(getNextTheme(state.theme))}`;
+      persistState();
+    }
+
+    function validateField(rawValue, maxMarks) {
+      if (rawValue === "") {
+        return { valid: false, message: "This field is required." };
+      }
+      if (!/^\d+(\.\d+)?$/.test(rawValue)) {
+        return { valid: false, message: "Only numeric values are allowed." };
+      }
+      const value = Number(rawValue);
+      if (Number.isNaN(value)) {
+        return { valid: false, message: "Invalid number." };
+      }
+      if (value < 0) {
+        return { valid: false, message: "Negative marks are not allowed." };
+      }
+      if (value > maxMarks) {
+        return { valid: false, message: `Maximum allowed is ${maxMarks}.` };
+      }
+      return { valid: true, value };
+    }
+
+    function getValidatedValues() {
+      const selected = getSelectedSubject();
+      const scheme = SCHEMES[selected.type];
+      const errors = {};
+      const parsedValues = {};
+
+      if (!scheme) {
+        return { allValid: false, errors, parsedValues };
+      }
+
+      scheme.fields.forEach(field => {
+        const rawValue = String(state.values[field.key] ?? "").trim();
+        const check = validateField(rawValue, field.maxMarks);
+        if (!check.valid) {
+          errors[field.key] = check.message;
+        } else {
+          parsedValues[field.key] = check.value;
+        }
+      });
+
+      return {
+        allValid: Object.keys(errors).length === 0,
+        errors,
+        parsedValues,
+      };
+    }
+
+    function getCompletionPercent() {
+      const scheme = getActiveScheme();
+      if (!scheme) return 0;
+      const total = scheme.fields.length;
+      const filled = scheme.fields.filter(field => {
+        const value = String(state.values[field.key] ?? "").trim();
+        return value !== "";
+      }).length;
+      return Math.round((filled / total) * 100);
+    }
+
+    function renderSubjectCards() {
+      elements.subjectGrid.innerHTML = "";
+      const query = state.searchQuery.trim().toLowerCase();
+      const availableSubjects = SUBJECTS.filter(subject => !state.hiddenSubjectIds.includes(subject.id));
+      const visibleSubjects = availableSubjects.filter(subject => {
+        if (!query) return true;
+        const haystack = `${subject.name} ${subject.code} ${getTypeLabel(subject.type)}`.toLowerCase();
+        return haystack.includes(query);
+      });
+
+      if (elements.subjectEmpty) {
+        elements.subjectEmpty.hidden = visibleSubjects.length !== 0;
+      }
+
+      visibleSubjects.forEach(subject => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `subject-card${subject.id === state.selectedSubjectId ? " active" : ""}`;
+        button.innerHTML = `
+          <p class="subject-name">${subject.name}</p>
+          <p class="subject-code">${subject.code}</p>
+          <span class="badge ${getTypeBadgeClass(subject.type)}">${getTypeLabel(subject.type)}</span>
+        `;
+
+        button.addEventListener("click", () => {
+          state.selectedSubjectId = subject.id;
+          state.errors = {};
+          state.manualCalculated = false;
+          const scheme = getActiveScheme();
+          const defaults = buildDefaultValuesForScheme(scheme);
+          const currentValues = state.values;
+          state.values = {};
+          Object.keys(defaults).forEach(key => {
+            state.values[key] = currentValues[key] ?? "";
+          });
+          if (elements.subjectSearch) {
+            elements.subjectSearch.value = "";
+          }
+          state.searchQuery = "";
+          persistState();
+          render();
+        });
+        elements.subjectGrid.appendChild(button);
+      });
+    }
+
+    function renderSubjectInfo() {
+      const subject = getSelectedSubject();
+      elements.subjectInfo.innerHTML = `
+        <div class="subject-meta">
+          <h3 class="text-fade-up">${subject.name}</h3>
+          <p class="text-fade-up text-delay-1">Code: ${subject.code}</p>
+        </div>
+        <span class="badge text-fade-up text-delay-2 ${getTypeBadgeClass(subject.type)}">${getTypeLabel(subject.type)}</span>
+      `;
+    }
+
+    function renderFields() {
+      const scheme = getActiveScheme();
+      elements.fieldGrid.innerHTML = "";
+      elements.unconfiguredMessage.hidden = Boolean(scheme);
+
+      if (!scheme) {
+        elements.calculateBtn.disabled = true;
+        elements.copyBtn.disabled = true;
+        elements.printBtn.disabled = true;
+        elements.formulaText.innerHTML = "Select a configured subject to view the formula and marks entry fields.";
+        state.values = {};
+        return;
+      }
+
+      scheme.fields.forEach((field, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "field field-enter";
+        wrapper.style.animationDelay = `${index * 28}ms`;
+
+        const errorMessage = state.errors[field.key] || "";
+        const value = state.values[field.key] ?? "";
+
+        wrapper.innerHTML = `
+          <div class="field-top">
+            <label for="${field.key}">${field.label}</label>
+            <span class="max-mark">Max ${field.maxMarks}</span>
+          </div>
+          <input
+            id="${field.key}"
+            inputmode="decimal"
+            type="text"
+            autocomplete="off"
+            placeholder="0 - ${field.maxMarks}"
+            value="${value}"
+            aria-describedby="${field.key}-error"
+            class="${errorMessage ? "invalid" : ""}"
+          />
+          <p class="error-msg" id="${field.key}-error">${errorMessage}</p>
+        `;
+
+        const input = wrapper.querySelector("input");
+        input.addEventListener("input", event => {
+          const cleanValue = event.target.value.replace(/[^\d.]/g, "");
+          const parts = cleanValue.split(".");
+          const normalized = parts.length > 2
+            ? `${parts[0]}.${parts.slice(1).join("")}`
+            : cleanValue;
+
+          event.target.value = normalized;
+          state.values[field.key] = normalized;
+
+          const quickCheck = validateField(normalized, field.maxMarks);
+          if (normalized === "") {
+            delete state.errors[field.key];
+          } else if (!quickCheck.valid) {
+            state.errors[field.key] = quickCheck.message;
+          } else {
+            delete state.errors[field.key];
+          }
+
+          const liveValidation = getValidatedValues();
+          state.manualCalculated = state.autoCalculate && liveValidation.allValid;
+          persistState();
+          renderSummary(!state.autoCalculate);
+          renderActionStates();
+          renderErrors();
+        });
+
+        elements.fieldGrid.appendChild(wrapper);
+      });
+
+      elements.formulaText.innerHTML = `<strong>Formula Used:</strong> <span class="tooltip" title="${scheme.formulaText}">${scheme.formulaText}</span>`;
+      renderActionStates();
+    }
+
+    function renderErrors() {
+      const scheme = getActiveScheme();
+      if (!scheme) return;
+      scheme.fields.forEach(field => {
+        const input = document.getElementById(field.key);
+        const error = document.getElementById(`${field.key}-error`);
+        if (!input || !error) return;
+        const message = state.errors[field.key] || "";
+        input.classList.toggle("invalid", Boolean(message));
+        error.textContent = message;
+      });
+    }
+
+    function renderActionStates() {
+      const scheme = getActiveScheme();
+      if (!scheme) {
+        elements.calculateBtn.disabled = true;
+        return;
+      }
+      const validation = getValidatedValues();
+      elements.calculateBtn.disabled = !validation.allValid;
+    }
+
+    function renderSummary(liveOnly = false) {
+      const subject = getSelectedSubject();
+      const scheme = getActiveScheme();
+      const completion = getCompletionPercent();
+      elements.progressFill.style.width = `${completion}%`;
+      elements.progressFill.parentElement.setAttribute("aria-valuenow", String(completion));
+
+      if (!scheme) {
+        setAnimatedText(elements.totalEntered, "0.00");
+        setAnimatedText(elements.maxPossible, "0");
+        setAnimatedText(elements.scaledMarks, "0.00");
+        setAnimatedText(elements.finalMarks, "0.00");
+        elements.resultCard.hidden = true;
+        return;
+      }
+
+      const validation = getValidatedValues();
+      const partialTotal = scheme.fields.reduce((sum, field) => {
+        const value = Number(String(state.values[field.key] ?? "").trim());
+        if (Number.isNaN(value)) return sum;
+        return sum + value;
+      }, 0);
+
+      setAnimatedText(elements.totalEntered, toDisplay(partialTotal));
+      setAnimatedText(elements.maxPossible, String(scheme.fields.reduce((sum, field) => sum + field.maxMarks, 0)));
+
+      if (validation.allValid) {
+        const calculation = scheme.calculate(validation.parsedValues);
+        setAnimatedText(elements.scaledMarks, toDisplay(calculation.scaled));
+        setAnimatedText(elements.finalMarks, toDisplay(calculation.final));
+
+        if (!liveOnly || state.manualCalculated) {
+          elements.resultCard.hidden = false;
+          setAnimatedText(elements.resultTitle, "Final Internal Marks");
+          setAnimatedText(elements.resultMeta, `${subject.name} • ${getTypeLabel(subject.type)}`);
+          setAnimatedText(elements.resultScore, `${toDisplay(calculation.final)} ${scheme.scaleLabel}`);
+          setAnimatedText(elements.resultFormula, `Total Raw Marks: ${toDisplay(calculation.totalEntered)} / ${calculation.maxPossible}`);
+          elements.copyBtn.disabled = false;
+          elements.printBtn.disabled = false;
+        }
+      } else {
+        setAnimatedText(elements.scaledMarks, "0.00");
+        setAnimatedText(elements.finalMarks, "0.00");
+        if (!liveOnly) {
+          elements.resultCard.hidden = true;
+        }
+        elements.copyBtn.disabled = true;
+        elements.printBtn.disabled = true;
+      }
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      const validation = getValidatedValues();
+      state.errors = validation.errors;
+      renderErrors();
+
+      if (!validation.allValid) {
+        renderActionStates();
+        renderSummary(true);
+        return;
+      }
+
+      state.manualCalculated = true;
+      renderSummary(false);
+    }
+
+    function resetFields() {
+      const scheme = getActiveScheme();
+      if (!scheme) return;
+      state.values = buildDefaultValuesForScheme(scheme);
+      state.errors = {};
+      state.manualCalculated = false;
+      persistState();
+      render();
+      showToast("Fields reset.", "success");
+    }
+
+    function copySummary() {
+      const subject = getSelectedSubject();
+      const scheme = getActiveScheme();
+      if (!scheme) return;
+      const validation = getValidatedValues();
+      if (!validation.allValid) return;
+      const calculation = scheme.calculate(validation.parsedValues);
+      const text = [
+        "CU 3rd Year CSE Total Internal Calculator",
+        `Subject: ${subject.name} (${subject.code})`,
+        `Type: ${getTypeLabel(subject.type)}`,
+        `Total Raw Marks Entered: ${toDisplay(calculation.totalEntered)} / ${calculation.maxPossible}`,
+        `Formula Used: ${scheme.formulaText}`,
+        `Final Internal Marks: ${toDisplay(calculation.final)} ${scheme.scaleLabel}`,
+      ].join("\n");
+
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          elements.copyBtn.textContent = "Copied!";
+          showToast("Summary copied to clipboard.", "success");
+          setTimeout(() => {
+            elements.copyBtn.textContent = "Copy Summary";
+          }, 1500);
+        })
+        .catch(() => {
+          elements.copyBtn.textContent = "Copy Failed";
+          showToast("Copy failed. Try again.", "error");
+          setTimeout(() => {
+            elements.copyBtn.textContent = "Copy Summary";
+          }, 1500);
+        });
+    }
+
+    function attachEvents() {
+      elements.marksForm.addEventListener("submit", handleFormSubmit);
+      elements.resetBtn.addEventListener("click", resetFields);
+      elements.copyBtn.addEventListener("click", copySummary);
+      elements.printBtn.addEventListener("click", () => window.print());
+      elements.themeToggle.addEventListener("click", () => {
+        setTheme(getNextTheme(state.theme));
+      });
+      elements.subjectSearch.addEventListener("input", event => {
+        state.searchQuery = event.target.value || "";
+        renderSubjectCards();
+      });
+      elements.subjectSearchClear.addEventListener("click", () => {
+        state.searchQuery = "";
+        elements.subjectSearch.value = "";
+        renderSubjectCards();
+      });
+      elements.subjectRestoreBtn.addEventListener("click", () => {
+        state.hiddenSubjectIds = [];
+        persistState();
+        renderSubjectCards();
+        showToast("All subjects restored.", "success");
+      });
+      elements.internalModeBtn.addEventListener("click", () => {
+        setCalculatorMode("internal");
+      });
+      elements.sgpaModeBtn.addEventListener("click", () => {
+        setCalculatorMode("sgpa");
+      });
+      elements.autoCalculate.addEventListener("change", event => {
+        state.autoCalculate = event.target.checked;
+        state.manualCalculated = state.autoCalculate && getValidatedValues().allValid;
+        persistState();
+        renderSummary(!state.autoCalculate);
+        showToast(state.autoCalculate ? "Auto calculate enabled." : "Auto calculate disabled.", "success");
+      });
+      elements.fillMaxBtn.addEventListener("click", () => fillValues("max"));
+      elements.fillZeroBtn.addEventListener("click", () => fillValues("zero"));
+      elements.sgpaAddRowBtn.addEventListener("click", () => {
+        state.sgpaEntries.push(createSgpaEntry());
+        persistState();
+        renderSgpa();
+        showToast("SGPA row added.", "success");
+      });
+      elements.sgpaResetBtn.addEventListener("click", () => {
+        state.sgpaEntries = getDefaultSgpaEntries();
+        persistState();
+        renderSgpa();
+        showToast("SGPA reset.", "success");
+      });
+      elements.sgpaRows.addEventListener("input", event => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement)) return;
+        if (!target.classList.contains("sgpa-credit")) return;
+
+        const rowId = target.dataset.rowId;
+        if (!rowId) return;
+        const cleaned = target.value.replace(/[^\d.]/g, "");
+        const parts = cleaned.split(".");
+        const normalized = parts.length > 2
+          ? `${parts[0]}.${parts.slice(1).join("")}`
+          : cleaned;
+        target.value = normalized;
+
+        const row = state.sgpaEntries.find(entry => entry.id === rowId);
+        if (!row) return;
+        row.credits = normalized;
+        persistState();
+        renderSgpaSummary();
+      });
+      elements.sgpaRows.addEventListener("change", event => {
+        const target = event.target;
+        if (!(target instanceof HTMLSelectElement)) return;
+        if (!target.classList.contains("sgpa-grade")) return;
+        const rowId = target.dataset.rowId;
+        if (!rowId) return;
+        const row = state.sgpaEntries.find(entry => entry.id === rowId);
+        if (!row) return;
+        row.grade = SGPA_GRADES.includes(target.value) ? target.value : "";
+        persistState();
+        renderSgpaSummary();
+      });
+      elements.sgpaRows.addEventListener("click", event => {
+        const target = event.target;
+        if (!(target instanceof HTMLButtonElement)) return;
+        if (!target.classList.contains("sgpa-remove")) return;
+        const rowId = target.dataset.rowId;
+        if (!rowId) return;
+        state.sgpaEntries = state.sgpaEntries.filter(entry => entry.id !== rowId);
+        if (state.sgpaEntries.length === 0) {
+          state.sgpaEntries = getDefaultSgpaEntries();
+        }
+        persistState();
+        renderSgpa();
+      });
+      document.addEventListener("keydown", event => {
+        if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+          event.preventDefault();
+          elements.marksForm.requestSubmit();
+        }
+      });
+    }
+
+    function alignValuesWithScheme() {
+      const scheme = getActiveScheme();
+      const defaults = buildDefaultValuesForScheme(scheme);
+      const aligned = {};
+      Object.keys(defaults).forEach(key => {
+        aligned[key] = state.values[key] ?? "";
+      });
+      state.values = aligned;
+    }
+
+    function render() {
+      if (elements.autoCalculate) {
+        elements.autoCalculate.checked = state.autoCalculate;
+      }
+      if (elements.subjectSearch && elements.subjectSearch.value !== state.searchQuery) {
+        elements.subjectSearch.value = state.searchQuery;
+      }
+      renderSubjectCards();
+      renderSubjectInfo();
+      alignValuesWithScheme();
+      renderFields();
+      renderErrors();
+      state.manualCalculated = state.autoCalculate && getValidatedValues().allValid;
+      renderSummary(!state.autoCalculate);
+      renderModeVisibility();
+      persistState();
+    }
+
+    function initialize() {
+      loadState();
+      state.sgpaEntries = normalizeSgpaEntries(state.sgpaEntries);
+      setTheme(state.theme);
+      alignValuesWithScheme();
+      attachEvents();
+      render();
+      renderSgpa();
+    }
+
+    initialize();
+  </script>
+</body>
+</html>
