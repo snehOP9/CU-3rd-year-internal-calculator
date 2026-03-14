@@ -294,6 +294,13 @@
       border-color: var(--accent);
     }
 
+    .compact-panel {
+      padding: 12px 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .section-title {
       margin: 0 0 12px;
       font-size: 1.02rem;
@@ -361,23 +368,6 @@
       box-shadow: var(--glow);
     }
 
-    .subject-restore-btn {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--surface-strong);
-      color: var(--text);
-      padding: 10px 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 180ms var(--ease-smooth), border-color 180ms ease, box-shadow 180ms ease;
-    }
-
-    .subject-restore-btn:hover {
-      transform: translateY(-1px);
-      border-color: var(--accent);
-      box-shadow: var(--glow);
-    }
-
     .subject-empty {
       margin: 8px 2px 0;
       color: var(--text-muted);
@@ -423,9 +413,9 @@
     }
 
     .subject-card.active {
-      border-color: var(--accent);
-      box-shadow: var(--glow);
-      background: linear-gradient(135deg, var(--accent-soft), var(--surface-strong));
+      border-color: var(--border);
+      box-shadow: none;
+      background: var(--surface-strong);
     }
 
     .subject-name {
@@ -621,9 +611,10 @@
 
     .actions {
       margin-top: 14px;
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 10px;
-      flex-wrap: wrap;
+      align-items: stretch;
     }
 
     .form-tools {
@@ -651,12 +642,6 @@
       cursor: pointer;
     }
 
-    .quick-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
     .btn-xs {
       min-width: 0;
       padding: 8px 11px;
@@ -671,7 +656,7 @@
       font-weight: 700;
       cursor: pointer;
       transition: transform 180ms var(--ease-smooth), filter 180ms var(--ease-smooth), box-shadow 180ms var(--ease-smooth), border-color 180ms var(--ease-smooth);
-      min-width: 128px;
+      min-width: 0;
       position: relative;
       overflow: hidden;
     }
@@ -1175,15 +1160,11 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .actions {
-        display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .form-tools {
         flex-direction: column;
         align-items: stretch;
-      }
-      .quick-actions {
-        width: 100%;
       }
       .btn {
         width: 100%;
@@ -1224,8 +1205,7 @@
         width: 100%;
       }
       .subject-search,
-      .subject-clear-btn,
-      .subject-restore-btn {
+      .subject-clear-btn {
         width: 100%;
       }
       .btn {
@@ -1291,7 +1271,7 @@
       <button class="theme-btn" id="themeToggle" type="button">Theme: Light · Next Dark</button>
     </header>
 
-    <section class="panel" aria-label="Calculator mode selector">
+    <section class="panel compact-panel" aria-label="Calculator mode selector">
       <div class="mode-switch" role="tablist" aria-label="Calculator mode">
         <button type="button" class="mode-btn active" id="internalModeBtn" role="tab" aria-selected="true">Internal Calculator</button>
         <button type="button" class="mode-btn" id="sgpaModeBtn" role="tab" aria-selected="false">SGPA Calculator</button>
@@ -1304,7 +1284,7 @@
       <div class="subject-tools">
         <input id="subjectSearch" class="subject-search" type="search" placeholder="Search subject by name or code..." autocomplete="off" />
         <button class="subject-clear-btn" id="subjectSearchClear" type="button">Clear</button>
-        <button class="subject-restore-btn" id="subjectRestoreBtn" type="button">Restore Subjects</button>
+        <button class="subject-clear-btn" id="changeSubjectBtn" type="button" hidden>Change Subject</button>
       </div>
       <p class="subject-empty" id="subjectEmpty" hidden>No subject found for this search.</p>
       <div class="subject-grid" id="subjectGrid"></div>
@@ -1404,7 +1384,7 @@
       </div>
     </section>
 
-    <p class="footer-note">Built for CU 3rd Year CSE students • Supports Theory, Hybrid, and Practical schemes • Made by Sneh</p>
+    <p class="footer-note">Built for CU 3rd Year CSE students • The most accurate internal marks calculator • Made by Sneh</p>
     <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
   </main>
 
@@ -1614,7 +1594,7 @@
       subjectGrid: document.getElementById("subjectGrid"),
       subjectSearch: document.getElementById("subjectSearch"),
       subjectSearchClear: document.getElementById("subjectSearchClear"),
-      subjectRestoreBtn: document.getElementById("subjectRestoreBtn"),
+      changeSubjectBtn: document.getElementById("changeSubjectBtn"),
       subjectEmpty: document.getElementById("subjectEmpty"),
       internalModeBtn: document.getElementById("internalModeBtn"),
       sgpaModeBtn: document.getElementById("sgpaModeBtn"),
@@ -1660,9 +1640,9 @@
       manualCalculated: false,
       theme: "light",
       searchQuery: "",
+      isSubjectFocused: false,
       autoCalculate: false,
       sgpaEntries: [],
-      hiddenSubjectIds: [],
       calculatorMode: "internal",
     };
 
@@ -1903,9 +1883,6 @@
             state.autoCalculate = saved.autoCalculate;
           }
           state.sgpaEntries = normalizeSgpaEntries(saved.sgpaEntries);
-          if (Array.isArray(saved.hiddenSubjectIds)) {
-            state.hiddenSubjectIds = saved.hiddenSubjectIds.filter(id => SUBJECTS.some(subject => subject.id === id));
-          }
           if (saved.calculatorMode === "internal" || saved.calculatorMode === "sgpa") {
             state.calculatorMode = saved.calculatorMode;
           }
@@ -1922,7 +1899,6 @@
         theme: state.theme,
         autoCalculate: state.autoCalculate,
         sgpaEntries: state.sgpaEntries,
-        hiddenSubjectIds: state.hiddenSubjectIds,
         calculatorMode: state.calculatorMode,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -1996,15 +1972,22 @@
     function renderSubjectCards() {
       elements.subjectGrid.innerHTML = "";
       const query = state.searchQuery.trim().toLowerCase();
-      const availableSubjects = SUBJECTS.filter(subject => !state.hiddenSubjectIds.includes(subject.id));
-      const visibleSubjects = availableSubjects.filter(subject => {
+      const sourceSubjects = state.isSubjectFocused
+        ? SUBJECTS.filter(subject => subject.id === state.selectedSubjectId)
+        : SUBJECTS;
+      const visibleSubjects = sourceSubjects.filter(subject => {
+        if (state.isSubjectFocused) return true;
         if (!query) return true;
         const haystack = `${subject.name} ${subject.code} ${getTypeLabel(subject.type)}`.toLowerCase();
         return haystack.includes(query);
       });
 
+      elements.changeSubjectBtn.hidden = !state.isSubjectFocused;
+      elements.subjectSearch.disabled = state.isSubjectFocused;
+      elements.subjectSearchClear.disabled = state.isSubjectFocused;
+
       if (elements.subjectEmpty) {
-        elements.subjectEmpty.hidden = visibleSubjects.length !== 0;
+        elements.subjectEmpty.hidden = state.isSubjectFocused || visibleSubjects.length !== 0;
       }
 
       visibleSubjects.forEach(subject => {
@@ -2019,6 +2002,7 @@
 
         button.addEventListener("click", () => {
           state.selectedSubjectId = subject.id;
+          state.isSubjectFocused = true;
           state.errors = {};
           state.manualCalculated = false;
           const scheme = getActiveScheme();
@@ -2276,11 +2260,11 @@
         elements.subjectSearch.value = "";
         renderSubjectCards();
       });
-      elements.subjectRestoreBtn.addEventListener("click", () => {
-        state.hiddenSubjectIds = [];
-        persistState();
+      elements.changeSubjectBtn.addEventListener("click", () => {
+        state.isSubjectFocused = false;
+        state.searchQuery = "";
+        elements.subjectSearch.value = "";
         renderSubjectCards();
-        showToast("All subjects restored.", "success");
       });
       elements.internalModeBtn.addEventListener("click", () => {
         setCalculatorMode("internal");
