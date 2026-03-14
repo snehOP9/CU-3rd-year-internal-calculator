@@ -252,21 +252,39 @@
     }
 
     .mode-switch {
+      position: relative;
       display: inline-flex;
       gap: 8px;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 6px;
       background: var(--surface-strong);
       width: fit-content;
+      overflow: hidden;
+    }
+
+    .mode-pill {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      height: calc(100% - 12px);
+      width: 0;
+      border-radius: 10px;
+      background: color-mix(in srgb, var(--accent) 78%, var(--surface-strong));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+      transition: transform 280ms var(--ease-smooth), width 280ms var(--ease-smooth);
+      z-index: 0;
     }
 
     .mode-btn {
+      position: relative;
+      z-index: 1;
       border: 1px solid transparent;
       border-radius: 10px;
       background: transparent;
       color: var(--text-muted);
-      font-weight: 700;
+      font-weight: 500;
+      text-shadow: none;
       padding: 8px 12px;
       cursor: pointer;
       transition: all 180ms var(--ease-smooth);
@@ -278,9 +296,10 @@
     }
 
     .mode-btn.active {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: var(--glow);
+      color: color-mix(in srgb, #fff 94%, var(--text) 6%);
+      background: transparent;
+      box-shadow: none;
+      font-weight: 500;
     }
 
     .panel {
@@ -310,6 +329,13 @@
       font-size: 1.02rem;
       letter-spacing: 0.2px;
       animation: riseIn 280ms var(--ease-smooth);
+      transition: letter-spacing 220ms var(--ease-smooth), transform 220ms var(--ease-smooth), text-shadow 220ms var(--ease-smooth);
+    }
+
+    .panel:hover .section-title {
+      letter-spacing: 0.35px;
+      transform: translateX(1px);
+      text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 24%, transparent);
     }
 
     .subtext {
@@ -317,6 +343,7 @@
       color: var(--text-muted);
       font-size: 0.9rem;
       transition: color 220ms var(--ease-smooth), transform 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth);
+      animation: textBreathe 6s ease-in-out infinite;
     }
 
     .panel:hover .subtext {
@@ -427,19 +454,20 @@
       font-weight: 700;
       font-size: 0.95rem;
       line-height: 1.35;
-      transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth);
+      transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth), letter-spacing 220ms var(--ease-smooth);
     }
 
     .subject-code {
       margin: 0;
       font-size: 0.84rem;
       color: var(--text-muted);
-      transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth);
+      transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth), letter-spacing 220ms var(--ease-smooth);
     }
 
     .subject-card:hover .subject-name,
     .subject-card:hover .subject-code {
       transform: translateX(2px);
+      letter-spacing: 0.2px;
     }
 
     .badge {
@@ -606,6 +634,10 @@
       box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.16);
     }
 
+    .field input.input-shake {
+      animation: inputShake 210ms var(--ease-smooth);
+    }
+
     .error-msg {
       margin: 0;
       color: var(--danger);
@@ -744,19 +776,23 @@
       margin: 0;
       font-size: 0.84rem;
       color: var(--text-muted);
-      transition: transform 200ms var(--ease-smooth);
+      transition: transform 200ms var(--ease-smooth), opacity 200ms var(--ease-smooth);
     }
 
     .summary-item h4 {
       margin: 6px 0 0;
       font-size: 1.02rem;
       font-weight: 700;
-      transition: transform 200ms var(--ease-smooth), letter-spacing 200ms var(--ease-smooth);
+      transition: transform 200ms var(--ease-smooth), letter-spacing 200ms var(--ease-smooth), text-shadow 220ms var(--ease-smooth);
     }
 
     .summary-item:hover p,
     .summary-item:hover h4 {
       transform: translateX(1px);
+    }
+
+    .summary-item:hover h4 {
+      text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 26%, transparent);
     }
 
     .progress-wrap {
@@ -830,12 +866,29 @@
       padding: 8px;
     }
 
+    .sgpa-row-enter {
+      animation: sgpaRowIn 240ms var(--ease-smooth) both;
+    }
+
+    .sgpa-row-exit {
+      animation: sgpaRowOut 200ms var(--ease-smooth) forwards;
+    }
+
     .sgpa-head {
       font-size: 0.78rem;
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.35px;
+    }
+
+    .sgpa-head span {
+      transition: color 220ms var(--ease-smooth), transform 220ms var(--ease-smooth);
+    }
+
+    .sgpa-table:hover .sgpa-head span {
+      color: var(--text);
+      transform: translateY(-1px);
     }
 
     .sgpa-idx {
@@ -891,12 +944,23 @@
       margin: 0;
       font-size: 0.82rem;
       color: var(--text-muted);
+      transition: transform 200ms var(--ease-smooth), opacity 200ms var(--ease-smooth);
     }
 
     .sgpa-card h4 {
       margin: 6px 0 0;
       font-size: 1.04rem;
       font-weight: 800;
+      transition: transform 200ms var(--ease-smooth), text-shadow 220ms var(--ease-smooth);
+    }
+
+    .sgpa-card:hover p,
+    .sgpa-card:hover h4 {
+      transform: translateX(1px);
+    }
+
+    .sgpa-card:hover h4 {
+      text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 24%, transparent);
     }
 
     .result-card {
@@ -908,6 +972,10 @@
       animation: popIn 280ms ease;
       box-shadow: var(--glow);
       transition: transform 260ms var(--ease-smooth), border-color 260ms var(--ease-smooth), box-shadow 260ms var(--ease-smooth);
+    }
+
+    .section-enter {
+      animation: sectionIn 260ms var(--ease-smooth);
     }
 
     .result-card:hover {
@@ -945,6 +1013,10 @@
 
     .value-pop {
       animation: valuePop 300ms var(--ease-smooth);
+    }
+
+    .text-switch {
+      animation: textSwitch 260ms var(--ease-smooth);
     }
 
     .small-note {
@@ -1097,6 +1169,38 @@
     @keyframes toastIn {
       from { opacity: 0; transform: translateY(8px) scale(0.98); }
       to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes textSwitch {
+      from { opacity: 0.25; transform: translateY(4px); filter: blur(1px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @keyframes textBreathe {
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes sectionIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes sgpaRowIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes sgpaRowOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(-6px) scale(0.985); }
+    }
+
+    @keyframes inputShake {
+      0% { transform: translateX(0); }
+      33% { transform: translateX(-3px); }
+      66% { transform: translateX(3px); }
+      100% { transform: translateX(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1303,6 +1407,7 @@
 
     <section class="panel compact-panel" aria-label="Calculator mode selector">
       <div class="mode-switch" role="tablist" aria-label="Calculator mode">
+        <span class="mode-pill" id="modePill" aria-hidden="true"></span>
         <button type="button" class="mode-btn active" id="internalModeBtn" role="tab" aria-selected="true">Internal Calculator</button>
         <button type="button" class="mode-btn" id="sgpaModeBtn" role="tab" aria-selected="false">SGPA Calculator</button>
       </div>
@@ -1628,6 +1733,7 @@
       subjectEmpty: document.getElementById("subjectEmpty"),
       internalModeBtn: document.getElementById("internalModeBtn"),
       sgpaModeBtn: document.getElementById("sgpaModeBtn"),
+      modePill: document.getElementById("modePill"),
       internalSubjectSection: document.getElementById("internalSubjectSection"),
       internalSection: document.getElementById("internalSection"),
       sgpaSection: document.getElementById("sgpaSection"),
@@ -1677,6 +1783,8 @@
       sgpaEntries: [],
       calculatorMode: "internal",
     };
+
+    let modePillRaf = null;
 
     function roundToTwo(value) {
       return Math.round((value + Number.EPSILON) * 100) / 100;
@@ -1740,11 +1848,82 @@
       if (element.textContent !== text) {
         element.textContent = text;
         element.classList.remove("value-pop");
+        element.classList.remove("text-switch");
         void element.offsetWidth;
         element.classList.add("value-pop");
+        element.classList.add("text-switch");
       } else {
         element.textContent = text;
       }
+    }
+
+    function toNumber(value) {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function animateNumericText(element, value, decimals = 2) {
+      if (!element) return;
+      const target = toNumber(value);
+      const current = toNumber(element.dataset.currentValue ?? element.textContent);
+      if (Math.abs(target - current) < 0.0001) {
+        element.textContent = target.toFixed(decimals);
+        element.dataset.currentValue = String(target);
+        return;
+      }
+
+      const duration = 300;
+      const start = performance.now();
+      const startValue = current;
+
+      const step = now => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const nextValue = startValue + ((target - startValue) * eased);
+        element.textContent = nextValue.toFixed(decimals);
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          element.textContent = target.toFixed(decimals);
+          element.dataset.currentValue = String(target);
+          element.classList.remove("value-pop");
+          element.classList.remove("text-switch");
+          void element.offsetWidth;
+          element.classList.add("value-pop");
+          element.classList.add("text-switch");
+        }
+      };
+
+      requestAnimationFrame(step);
+    }
+
+    function triggerSectionEnter(element) {
+      if (!element || element.hidden) return;
+      element.classList.remove("section-enter");
+      void element.offsetWidth;
+      element.classList.add("section-enter");
+    }
+
+    function updateModePill() {
+      const activeBtn = state.calculatorMode === "internal" ? elements.internalModeBtn : elements.sgpaModeBtn;
+      if (!activeBtn || !elements.modePill) return;
+
+      const parentRect = activeBtn.parentElement.getBoundingClientRect();
+      const activeRect = activeBtn.getBoundingClientRect();
+      const offsetX = activeRect.left - parentRect.left;
+
+      elements.modePill.style.width = `${activeRect.width}px`;
+      elements.modePill.style.transform = `translateX(${offsetX}px)`;
+    }
+
+    function scheduleModePillUpdate() {
+      if (modePillRaf) {
+        cancelAnimationFrame(modePillRaf);
+      }
+      modePillRaf = requestAnimationFrame(() => {
+        updateModePill();
+        modePillRaf = null;
+      });
     }
 
     function showToast(message, type = "info") {
@@ -1825,7 +2004,7 @@
       `;
 
       const rows = state.sgpaEntries.map((entry, index) => `
-        <div class="sgpa-row" data-row-id="${entry.id}">
+        <div class="sgpa-row sgpa-row-enter" data-row-id="${entry.id}">
           <div class="sgpa-idx">Subject ${index + 1}</div>
           <input
             type="text"
@@ -1870,9 +2049,9 @@
       }, { totalCredits: 0, totalPoints: 0 });
 
       const sgpa = totals.totalCredits > 0 ? totals.totalPoints / totals.totalCredits : 0;
-      setAnimatedText(elements.sgpaTotalCredits, toDisplay(totals.totalCredits));
-      setAnimatedText(elements.sgpaTotalPoints, toDisplay(totals.totalPoints));
-      setAnimatedText(elements.sgpaValue, toDisplay(sgpa));
+      animateNumericText(elements.sgpaTotalCredits, totals.totalCredits, 2);
+      animateNumericText(elements.sgpaTotalPoints, totals.totalPoints, 2);
+      animateNumericText(elements.sgpaValue, sgpa, 2);
     }
 
     function setCalculatorMode(mode) {
@@ -1896,6 +2075,10 @@
       elements.internalSubjectSection.hidden = !isInternalMode;
       elements.internalSection.hidden = !isInternalMode;
       elements.sgpaSection.hidden = isInternalMode;
+
+      triggerSectionEnter(isInternalMode ? elements.internalSubjectSection : elements.sgpaSection);
+      triggerSectionEnter(isInternalMode ? elements.internalSection : elements.sgpaSection);
+      scheduleModePillUpdate();
 
       if (isInternalMode) {
         setAnimatedText(elements.appTitle, "CU 3rd Year CSE Total Internal Calculator");
@@ -2156,6 +2339,9 @@
             delete state.errors[field.key];
           } else if (!quickCheck.valid) {
             state.errors[field.key] = quickCheck.message;
+            event.target.classList.remove("input-shake");
+            void event.target.offsetWidth;
+            event.target.classList.add("input-shake");
           } else {
             delete state.errors[field.key];
           }
@@ -2221,13 +2407,13 @@
         return sum + value;
       }, 0);
 
-      setAnimatedText(elements.totalEntered, toDisplay(partialTotal));
-      setAnimatedText(elements.maxPossible, String(scheme.fields.reduce((sum, field) => sum + field.maxMarks, 0)));
+      animateNumericText(elements.totalEntered, partialTotal, 2);
+      animateNumericText(elements.maxPossible, scheme.fields.reduce((sum, field) => sum + field.maxMarks, 0), 0);
 
       if (validation.allValid) {
         const calculation = scheme.calculate(validation.parsedValues);
-        setAnimatedText(elements.scaledMarks, toDisplay(calculation.scaled));
-        setAnimatedText(elements.finalMarks, toDisplay(calculation.final));
+        animateNumericText(elements.scaledMarks, calculation.scaled, 2);
+        animateNumericText(elements.finalMarks, calculation.final, 2);
 
         if (!liveOnly || state.manualCalculated) {
           elements.resultCard.hidden = false;
@@ -2239,8 +2425,8 @@
           elements.printBtn.disabled = false;
         }
       } else {
-        setAnimatedText(elements.scaledMarks, "0.00");
-        setAnimatedText(elements.finalMarks, "0.00");
+        animateNumericText(elements.scaledMarks, 0, 2);
+        animateNumericText(elements.finalMarks, 0, 2);
         if (!liveOnly) {
           elements.resultCard.hidden = true;
         }
@@ -2403,13 +2589,21 @@
         if (!target.classList.contains("sgpa-remove")) return;
         const rowId = target.dataset.rowId;
         if (!rowId) return;
-        state.sgpaEntries = state.sgpaEntries.filter(entry => entry.id !== rowId);
-        if (state.sgpaEntries.length === 0) {
-          state.sgpaEntries = getDefaultSgpaEntries();
+        const rowElement = target.closest(".sgpa-row");
+        if (rowElement) {
+          rowElement.classList.remove("sgpa-row-enter");
+          rowElement.classList.add("sgpa-row-exit");
         }
-        persistState();
-        renderSgpa();
+        setTimeout(() => {
+          state.sgpaEntries = state.sgpaEntries.filter(entry => entry.id !== rowId);
+          if (state.sgpaEntries.length === 0) {
+            state.sgpaEntries = getDefaultSgpaEntries();
+          }
+          persistState();
+          renderSgpa();
+        }, 180);
       });
+      window.addEventListener("resize", scheduleModePillUpdate);
       document.addEventListener("keydown", event => {
         if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
           event.preventDefault();
@@ -2444,6 +2638,7 @@
       renderSummary(!state.autoCalculate);
       renderModeVisibility();
       persistState();
+      scheduleModePillUpdate();
     }
 
     function initialize() {
