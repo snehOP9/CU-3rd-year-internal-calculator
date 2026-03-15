@@ -2533,7 +2533,6 @@
           if (typeof saved.autoCalculate === "boolean") {
             state.autoCalculate = saved.autoCalculate;
           }
-          state.sgpaEntries = normalizeSgpaEntries(saved.sgpaEntries);
           if (saved.calculatorMode === "internal" || saved.calculatorMode === "sgpa") {
             state.calculatorMode = saved.calculatorMode;
           }
@@ -2548,7 +2547,6 @@
         selectedSubjectId: state.selectedSubjectId,
         theme: state.theme,
         autoCalculate: state.autoCalculate,
-        sgpaEntries: state.sgpaEntries,
         calculatorMode: state.calculatorMode,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));

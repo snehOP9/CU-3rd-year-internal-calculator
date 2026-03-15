@@ -11,7 +11,7 @@ A modern, responsive internal marks calculator for Chandigarh University CSE 3rd
 - Dark/light theme toggle
 - Copy result summary
 - Export/Print via browser print flow
-- Local storage persistence for selected subject, theme, mode, and SGPA rows (entered marks reset on reload)
+- Local storage persistence for selected subject, theme, and mode (Internal + SGPA entered values reset on reload)
 
 ## Tech
 
