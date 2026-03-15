@@ -2527,9 +2527,6 @@
           if (typeof saved.selectedSubjectId === "string" && SUBJECTS.some(subject => subject.id === saved.selectedSubjectId)) {
             state.selectedSubjectId = saved.selectedSubjectId;
           }
-          if (saved.values && typeof saved.values === "object") {
-            state.values = saved.values;
-          }
           if (isValidTheme(saved.theme)) {
             state.theme = saved.theme;
           }
@@ -2549,7 +2546,6 @@
     function persistState() {
       const payload = {
         selectedSubjectId: state.selectedSubjectId,
-        values: state.values,
         theme: state.theme,
         autoCalculate: state.autoCalculate,
         sgpaEntries: state.sgpaEntries,
