@@ -1208,11 +1208,13 @@
       border-radius: 12px;
       background: var(--surface-strong);
       padding: 10px;
+      width: min(280px, 100%);
     }
 
     .gauge-track {
       position: relative;
       height: 10px;
+      width: 100%;
       border-radius: 999px;
       border: 1px solid var(--border);
       background: linear-gradient(90deg, color-mix(in srgb, var(--danger) 60%, transparent), color-mix(in srgb, #f59e0b 60%, transparent), color-mix(in srgb, var(--success) 60%, transparent));
@@ -1237,6 +1239,25 @@
       color: var(--text-muted);
       font-size: 0.76rem;
       font-weight: 700;
+      width: 100%;
+      gap: 6px;
+    }
+
+    .gauge-labels span {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .gauge-labels span:first-child {
+      text-align: left;
+    }
+
+    .gauge-labels span:nth-child(2) {
+      text-align: center;
+    }
+
+    .gauge-labels span:last-child {
+      text-align: right;
     }
 
     .result-card.celebrate {
