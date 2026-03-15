@@ -28,6 +28,7 @@
       --blob-2: rgba(14, 165, 233, 0.2);
       --radius-xl: 20px;
       --radius-lg: 14px;
+      --space-min: 10px;
       --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -354,13 +355,15 @@
     .subject-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
+      gap: max(12px, var(--space-min));
+      align-items: start;
+      margin-top: var(--space-min);
     }
 
     .subject-tools {
       margin-top: 10px;
       display: flex;
-      gap: 8px;
+      gap: var(--space-min);
       flex-wrap: wrap;
     }
 
@@ -421,6 +424,25 @@
       align-content: start;
       position: relative;
       overflow: hidden;
+      transform-style: preserve-3d;
+      isolation: isolate;
+      z-index: 0;
+      min-width: 0;
+    }
+
+    .subject-card.type-theory {
+      border-color: color-mix(in srgb, var(--theory) 55%, var(--border));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--theory) 22%, transparent);
+    }
+
+    .subject-card.type-hybrid {
+      border-color: color-mix(in srgb, var(--hybrid) 55%, var(--border));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--hybrid) 22%, transparent);
+    }
+
+    .subject-card.type-practical {
+      border-color: color-mix(in srgb, var(--practical) 55%, var(--border));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--practical) 22%, transparent);
     }
 
     .subject-card::after {
@@ -434,9 +456,10 @@
     }
 
     .subject-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) rotateX(1deg) rotateY(-1deg);
       border-color: var(--accent);
       box-shadow: var(--glow);
+      z-index: 2;
     }
 
     .subject-card:hover::after {
@@ -444,9 +467,37 @@
     }
 
     .subject-card.active {
-      border-color: var(--border);
-      box-shadow: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent), 0 0 12px color-mix(in srgb, var(--accent) 24%, transparent);
       background: var(--surface-strong);
+      transform: none;
+      animation: selectedGlow 2.1s var(--ease-smooth) infinite;
+      z-index: 1;
+    }
+
+    .subject-preview {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      font-size: 0.76rem;
+      color: var(--text);
+      background: color-mix(in srgb, var(--surface-strong) 92%, var(--accent-soft));
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px) scale(0.98);
+      transition: opacity 180ms var(--ease-smooth), transform 180ms var(--ease-smooth);
+      z-index: 1;
+      white-space: pre-line;
+    }
+
+    .subject-card:hover .subject-preview,
+    .subject-card:focus-visible .subject-preview {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
 
     .subject-name {
@@ -455,6 +506,7 @@
       font-size: 0.95rem;
       line-height: 1.35;
       transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth), letter-spacing 220ms var(--ease-smooth);
+      overflow-wrap: anywhere;
     }
 
     .subject-code {
@@ -462,6 +514,7 @@
       font-size: 0.84rem;
       color: var(--text-muted);
       transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth), letter-spacing 220ms var(--ease-smooth);
+      overflow-wrap: anywhere;
     }
 
     .subject-card:hover .subject-name,
@@ -498,7 +551,7 @@
 
     .internal-layout {
       display: grid;
-      gap: 16px;
+      gap: max(16px, var(--space-min));
       grid-template-columns: 1fr;
     }
 
@@ -545,9 +598,10 @@
     .field-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 12px;
+      gap: max(12px, var(--space-min));
       margin-top: 12px;
       animation: fadeIn 220ms ease;
+      align-items: start;
     }
 
     .field {
@@ -559,6 +613,21 @@
       gap: 8px;
       align-content: start;
       transition: border-color 180ms ease, transform 180ms var(--ease-smooth);
+    }
+
+    .field.score-low {
+      border-color: color-mix(in srgb, var(--danger) 55%, var(--border));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--danger) 18%, transparent);
+    }
+
+    .field.score-medium {
+      border-color: color-mix(in srgb, #f59e0b 55%, var(--border));
+      box-shadow: 0 0 0 1px color-mix(in srgb, #f59e0b 18%, transparent);
+    }
+
+    .field.score-high {
+      border-color: color-mix(in srgb, var(--success) 55%, var(--border));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--success) 18%, transparent);
     }
 
     .field-enter {
@@ -576,6 +645,7 @@
       justify-content: space-between;
       gap: 8px;
       align-items: flex-start;
+      flex-wrap: wrap;
     }
 
     .field label {
@@ -583,6 +653,8 @@
       font-size: 0.9rem;
       line-height: 1.28;
       transition: color 200ms var(--ease-smooth), transform 200ms var(--ease-smooth);
+      overflow-wrap: anywhere;
+      min-width: 0;
     }
 
     .field:hover label {
@@ -598,6 +670,7 @@
       padding: 2px 8px;
       white-space: nowrap;
       transition: border-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth), transform 200ms var(--ease-smooth);
+      margin-left: auto;
     }
 
     .field:hover .max-mark {
@@ -616,6 +689,56 @@
       font-size: 0.95rem;
       outline: none;
       transition: border-color 170ms ease, box-shadow 170ms ease, transform 170ms ease;
+    }
+
+    .field-input-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .field-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .field-value-text {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      min-width: 52px;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .progress-ring {
+      --ring-size: 28px;
+      --ring-progress: 0%;
+      width: var(--ring-size);
+      height: var(--ring-size);
+      border-radius: 999px;
+      background: conic-gradient(var(--accent) var(--ring-progress), color-mix(in srgb, var(--border) 70%, transparent) 0);
+      display: grid;
+      place-items: center;
+      transition: background 180ms ease;
+    }
+
+    .progress-ring::after {
+      content: "";
+      width: calc(var(--ring-size) - 8px);
+      height: calc(var(--ring-size) - 8px);
+      border-radius: 999px;
+      background: var(--surface-strong);
+      border: 1px solid var(--border);
+    }
+
+    .field-slider {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
     }
 
     .field input::placeholder {
@@ -647,6 +770,18 @@
       opacity: 0.9;
     }
 
+    .error-msg.badge-error:not(:empty) {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      border: 1px solid color-mix(in srgb, var(--danger) 50%, var(--border));
+      border-radius: 999px;
+      padding: 3px 9px;
+      background: color-mix(in srgb, var(--danger) 12%, transparent);
+      font-weight: 600;
+    }
+
     .error-msg:not(:empty) {
       animation: errorReveal 220ms var(--ease-smooth);
     }
@@ -655,7 +790,7 @@
       margin-top: 14px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
+      gap: var(--space-min);
       align-items: stretch;
     }
 
@@ -664,7 +799,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: var(--space-min);
       flex-wrap: wrap;
     }
 
@@ -752,51 +887,54 @@
       box-shadow: var(--glow);
     }
 
-    .summary-grid {
-      display: grid;
-      gap: 10px;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      margin-top: 10px;
-    }
-
-    .summary-item {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      background: var(--surface-strong);
-      padding: 10px;
-      transition: transform 180ms var(--ease-smooth), border-color 180ms ease;
-    }
-
-    .summary-item:hover {
-      transform: translateY(-1px);
-      border-color: var(--accent);
-    }
-
-    .summary-item p {
-      margin: 0;
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      transition: transform 200ms var(--ease-smooth), opacity 200ms var(--ease-smooth);
-    }
-
-    .summary-item h4 {
-      margin: 6px 0 0;
-      font-size: 1.02rem;
-      font-weight: 700;
-      transition: transform 200ms var(--ease-smooth), letter-spacing 200ms var(--ease-smooth), text-shadow 220ms var(--ease-smooth);
-    }
-
-    .summary-item:hover p,
-    .summary-item:hover h4 {
-      transform: translateX(1px);
-    }
-
-    .summary-item:hover h4 {
-      text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 26%, transparent);
-    }
-
     .progress-wrap {
       margin-top: 10px;
+    }
+
+    .completion-meta {
+      margin: 0 0 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .completion-status {
+      margin-top: 10px;
+      display: grid;
+      gap: var(--space-min);
+      max-height: 180px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .completion-row {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface-strong);
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .completion-row span {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .completion-row.done {
+      border-color: color-mix(in srgb, var(--success) 50%, var(--border));
+      color: var(--success);
+    }
+
+    .completion-row.pending {
+      color: var(--text-muted);
     }
 
     .progress-bar {
@@ -845,13 +983,13 @@
 
     .sgpa-toolbar {
       display: flex;
-      gap: 10px;
+      gap: var(--space-min);
       flex-wrap: wrap;
     }
 
     .sgpa-table {
       display: grid;
-      gap: 8px;
+      gap: var(--space-min);
     }
 
     .sgpa-row,
@@ -930,7 +1068,7 @@
     .sgpa-summary {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 8px;
+      gap: var(--space-min);
     }
 
     .sgpa-card {
@@ -991,10 +1129,119 @@
       flex-wrap: wrap;
     }
 
+    .result-viz {
+      margin-top: 12px;
+      display: grid;
+      gap: var(--space-min);
+      grid-template-columns: 122px 1fr;
+      align-items: center;
+    }
+
+    .marks-meter {
+      --meter-progress: 0%;
+      width: 122px;
+      height: 122px;
+      position: relative;
+      perspective: 760px;
+      border-radius: 999px;
+      background: conic-gradient(var(--accent) var(--meter-progress), color-mix(in srgb, var(--border) 70%, transparent) 0);
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      transition: background 260ms ease;
+      isolation: isolate;
+    }
+
+    .marks-meter::after {
+      content: "";
+      width: 94px;
+      height: 94px;
+      border-radius: 999px;
+      background: var(--surface-strong);
+      border: 1px solid var(--border);
+      position: absolute;
+    }
+
+    .marks-meter-value {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    #marksMeterValue {
+      display: block;
+      font-size: 1rem;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      text-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 24%, transparent);
+      letter-spacing: 0.2px;
+      will-change: transform, opacity, filter;
+    }
+
+    .marks-meter-value small {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      will-change: transform, opacity, filter;
+    }
+
+    .meter-3d-switch {
+      animation: meterTextUltra3d 520ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .score-gauge {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-strong);
+      padding: 10px;
+    }
+
+    .gauge-track {
+      position: relative;
+      height: 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: linear-gradient(90deg, color-mix(in srgb, var(--danger) 60%, transparent), color-mix(in srgb, #f59e0b 60%, transparent), color-mix(in srgb, var(--success) 60%, transparent));
+    }
+
+    .gauge-needle {
+      position: absolute;
+      top: -6px;
+      width: 2px;
+      height: 22px;
+      border-radius: 999px;
+      background: var(--text);
+      transform: translateX(-1px);
+      transition: left 220ms var(--ease-smooth);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--surface-strong) 80%, transparent);
+    }
+
+    .gauge-labels {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .result-card.celebrate {
+      animation: celebratePop 820ms var(--ease-smooth);
+    }
+
     .result-main h2 {
       margin: 0;
       font-size: clamp(1.2rem, 2.3vw, 1.8rem);
       animation: riseIn 320ms var(--ease-smooth);
+      overflow-wrap: anywhere;
     }
 
     .result-main p {
@@ -1203,6 +1450,39 @@
       100% { transform: translateX(0); }
     }
 
+    @keyframes selectedGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 36%, transparent), 0 0 10px color-mix(in srgb, var(--accent) 20%, transparent);
+      }
+      50% {
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent), 0 0 14px color-mix(in srgb, var(--accent) 26%, transparent);
+      }
+    }
+
+    @keyframes celebratePop {
+      0% { transform: scale(0.985); }
+      35% { transform: scale(1.015); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes meterTextUltra3d {
+      0% {
+        opacity: 0;
+        transform: rotateX(72deg) translateZ(-12px) translateY(8px) scale(0.92);
+        filter: blur(3px);
+      }
+      45% {
+        opacity: 1;
+        transform: rotateX(-12deg) translateZ(8px) translateY(-1px) scale(1.03);
+        filter: blur(0.4px);
+      }
+      100% {
+        opacity: 1;
+        transform: rotateX(0deg) translateZ(0) translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation: none !important;
@@ -1290,8 +1570,18 @@
       .mode-btn {
         flex: 1;
       }
-      .summary-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .result-viz {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+      .field-input-row {
+        grid-template-columns: 1fr;
+      }
+      .field-meta {
+        justify-content: space-between;
+      }
+      .completion-meta {
+        flex-wrap: wrap;
       }
       .actions {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1324,7 +1614,6 @@
         padding: 14px;
       }
       .field-grid,
-      .summary-grid,
       .actions {
         grid-template-columns: 1fr;
       }
@@ -1452,30 +1741,15 @@
       <section class="panel internal-summary-panel">
         <h2 class="section-title">Calculation Summary</h2>
         <p class="subtext">Live preview updates as you enter marks.</p>
-        <div class="summary-grid">
-          <article class="summary-item hidden-ui">
-            <p>Total Entered Marks</p>
-            <h4 id="totalEntered">0.00</h4>
-          </article>
-          <article class="summary-item hidden-ui">
-            <p>Maximum Possible</p>
-            <h4 id="maxPossible">0</h4>
-          </article>
-          <article class="summary-item">
-            <p>Scaled Marks</p>
-            <h4 id="scaledMarks">0.00</h4>
-          </article>
-          <article class="summary-item">
-            <p>Final Internal Marks</p>
-            <h4 id="finalMarks">0.00</h4>
-          </article>
-        </div>
-
         <div class="progress-wrap">
-          <p class="subtext">Form completion progress</p>
+          <div class="completion-meta">
+            <span id="completionText">0 / 0 fields filled</span>
+            <span id="completionPercentText">0%</span>
+          </div>
           <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
             <div class="progress-fill" id="progressFill"></div>
           </div>
+          <div class="completion-status" id="completionStatus"></div>
         </div>
 
         <div class="formula-box hidden-ui" id="formulaText" title="Formula based on selected subject type"></div>
@@ -1487,6 +1761,21 @@
               <p id="resultMeta"></p>
             </div>
             <div class="result-score" id="resultScore"></div>
+          </div>
+          <div class="result-viz">
+            <div class="marks-meter" id="marksMeter">
+              <div class="marks-meter-value"><span id="marksMeterValue">0.00</span><small id="marksMeterScale">/ 0</small></div>
+            </div>
+            <div class="score-gauge">
+              <div class="gauge-track">
+                <div class="gauge-needle" id="gaugeNeedle"></div>
+              </div>
+              <div class="gauge-labels">
+                <span>0</span>
+                <span>Mid</span>
+                <span>Max</span>
+              </div>
+            </div>
           </div>
           <p class="small-note hidden-ui" id="resultFormula"></p>
         </section>
@@ -1605,6 +1894,21 @@
       },
     ];
 
+    const SGPA_SUBJECTS = [
+      { id: "ai", name: "Principles of Artificial Intelligence", code: "23CST-306", credits: 2 },
+      { id: "toc", name: "Theory of Computation", code: "23CST-316", credits: 3 },
+      { id: "cc2", name: "Competitive Coding-II", code: "23CSP-308", credits: 2 },
+      { id: "system-design", name: "System Design", code: "23CSH-314", credits: 3 },
+      { id: "numerical-methods", name: "Numerical Methods", code: "23SMH-341", credits: 4 },
+      { id: "cloud-computing", name: "Cloud Computing", code: "23CSH-307", credits: 3 },
+      { id: "adp-ios", name: "Advanced Design Principles for IOS", code: "23CSH-315", credits: 3 },
+      { id: "swift-frameworks", name: "Application and Frameworks Development using Swift", code: "23CSH-311", credits: 3 },
+      { id: "fsd2", name: "Full Stack Development - II", code: "23CSH-309", credits: 3 },
+    ].map(subject => ({
+      ...subject,
+      label: `${subject.name} (${subject.code})`,
+    }));
+
     const SCHEMES = {
       theory: {
         scaleLabel: "/ 40",
@@ -1634,15 +1938,15 @@
         },
       },
       aptitude: {
-        scaleLabel: "/ 44",
-        formulaText: "Internal Marks = ((MST1 + MST2) / 2) + Assignment + (Attendance / 2) + ((Surprise Test / 12) × 4) + Quiz",
+        scaleLabel: "/ 40",
+        formulaText: "Internal Marks = ((MST1 + MST2) / 2) + Assignment + ((Attendance / 4) × 2) + ((Surprise Test / 12) × 4) + ((Quiz / 6) × 4)",
         fields: [
-          { key: "assignment", label: "Assignment / PBL", maxMarks: 12 },
+          { key: "assignment", label: "Assignment / PBL", maxMarks: 10 },
           { key: "attendance", label: "Attendance Marks", maxMarks: 4 },
           { key: "mst1", label: "Mid-Semester Test-1", maxMarks: 20 },
+          { key: "quiz", label: "Quiz", maxMarks: 6 },
           { key: "surprise", label: "Surprise Test", maxMarks: 12 },
           { key: "mst2", label: "Mid-Semester Test-2", maxMarks: 20 },
-          { key: "quiz", label: "Quiz", maxMarks: 6 },
         ],
         calculate(values) {
           const mst1 = values.mst1;
@@ -1651,10 +1955,10 @@
           const attendance = values.attendance;
           const surprise = values.surprise;
           const quiz = values.quiz;
-          const final = ((mst1 + mst2) / 2) + assignment + (attendance / 2) + ((surprise / 12) * 4) + quiz;
+          const final = ((mst1 + mst2) / 2) + assignment + ((attendance / 4) * 2) + ((surprise / 12) * 4) + ((quiz / 6) * 4);
           return {
-            totalEntered: assignment + attendance + mst1 + surprise + mst2 + quiz,
-            maxPossible: 74,
+            totalEntered: assignment + attendance + mst1 + quiz + surprise + mst2,
+            maxPossible: 72,
             scaled: final,
             final,
           };
@@ -1662,7 +1966,7 @@
       },
       hybrid: {
         scaleLabel: "/ 70",
-        formulaText: "Internal Marks = (Total Marks Scored / 418) × 70",
+        formulaText: "Internal Marks = (((MST1 + MST2) / 40) × 10) + ((Practical MST / 10) × 5) + ((Surprise Test / 12) × 6) + ((Quiz / 4) × 2) + ((Assignment / 10) × 5) + ((Attendance / 2) × 2) + ((Total Worksheets Marks / 300) × 20) + ((External Practical / 40) × 20)",
         fields: [
           { key: "attendance", label: "Attendance Marks", maxMarks: 2 },
           { key: "surprise", label: "Surprise Test", maxMarks: 12 },
@@ -1677,14 +1981,35 @@
           { key: "worksheet8", label: "Practical Worksheet / Projects 8", maxMarks: 30 },
           { key: "worksheet9", label: "Practical Worksheet / Projects 9", maxMarks: 30 },
           { key: "worksheet10", label: "Practical Worksheet / Projects 10", maxMarks: 30 },
+          { key: "finalPractical", label: "External Practical", maxMarks: 40 },
           { key: "quiz", label: "Quiz", maxMarks: 4 },
           { key: "assignment", label: "Assignment / PBL", maxMarks: 10 },
           { key: "mst1", label: "MST-1 Hybrid", maxMarks: 20 },
           { key: "mst2", label: "MST-2 Hybrid", maxMarks: 20 },
         ],
         calculate(values) {
+          const mstCombined = values.mst1 + values.mst2;
+          const worksheetTotal = values.worksheet1
+            + values.worksheet2
+            + values.worksheet3
+            + values.worksheet4
+            + values.worksheet5
+            + values.worksheet6
+            + values.worksheet7
+            + values.worksheet8
+            + values.worksheet9
+            + values.worksheet10;
+
+          const scaled = ((mstCombined / 40) * 10)
+            + ((values.practicalMst / 10) * 5)
+            + ((values.surprise / 12) * 6)
+            + ((values.quiz / 4) * 2)
+            + ((values.assignment / 10) * 5)
+            + ((values.attendance / 2) * 2)
+            + ((worksheetTotal / 300) * 20)
+            + ((values.finalPractical / 40) * 20);
+
           const totalEntered = Object.values(values).reduce((sum, val) => sum + val, 0);
-          const scaled = (totalEntered / 418) * 70;
           return {
             totalEntered,
             maxPossible: 418,
@@ -1748,17 +2073,19 @@
       resetBtn: document.getElementById("resetBtn"),
       copyBtn: document.getElementById("copyBtn"),
       printBtn: document.getElementById("printBtn"),
-      totalEntered: document.getElementById("totalEntered"),
-      maxPossible: document.getElementById("maxPossible"),
-      scaledMarks: document.getElementById("scaledMarks"),
-      finalMarks: document.getElementById("finalMarks"),
       progressFill: document.getElementById("progressFill"),
+      completionText: document.getElementById("completionText"),
+      completionPercentText: document.getElementById("completionPercentText"),
       formulaText: document.getElementById("formulaText"),
       resultCard: document.getElementById("resultCard"),
       resultTitle: document.getElementById("resultTitle"),
       resultMeta: document.getElementById("resultMeta"),
       resultScore: document.getElementById("resultScore"),
       resultFormula: document.getElementById("resultFormula"),
+      marksMeter: document.getElementById("marksMeter"),
+      marksMeterValue: document.getElementById("marksMeterValue"),
+      marksMeterScale: document.getElementById("marksMeterScale"),
+      gaugeNeedle: document.getElementById("gaugeNeedle"),
       appTitle: document.getElementById("appTitle"),
       appSubtitle: document.getElementById("appSubtitle"),
       themeToggle: document.getElementById("themeToggle"),
@@ -1855,6 +2182,15 @@
       } else {
         element.textContent = text;
       }
+    }
+
+    function setUltra3DText(element, text) {
+      if (!element) return;
+      if (element.textContent === text) return;
+      element.textContent = text;
+      element.classList.remove("meter-3d-switch");
+      void element.offsetWidth;
+      element.classList.add("meter-3d-switch");
     }
 
     function toNumber(value) {
@@ -1959,13 +2295,18 @@
         return getDefaultSgpaEntries();
       }
 
+      const validSubjectLabels = new Set(SGPA_SUBJECTS.map(subject => subject.label));
+
       const normalized = entries.slice(0, 20).map(item => {
         const rawCredits = typeof item?.credits === "string" || typeof item?.credits === "number"
           ? String(item.credits)
           : "";
         const cleanedCredits = rawCredits.replace(/[^\d.]/g, "");
-        const subjectName = typeof item?.subjectName === "string"
-          ? item.subjectName.slice(0, 80)
+        const subjectNameCandidate = typeof item?.subjectName === "string"
+          ? item.subjectName.slice(0, 120)
+          : "";
+        const subjectName = validSubjectLabels.has(subjectNameCandidate)
+          ? subjectNameCandidate
           : "";
         const grade = SGPA_GRADES.includes(item?.grade) ? item.grade : "";
         return {
@@ -1979,10 +2320,50 @@
       return normalized.length ? normalized : getDefaultSgpaEntries();
     }
 
+    function getCreditsForSgpaSubject(subjectLabel) {
+      const found = SGPA_SUBJECTS.find(subject => subject.label === subjectLabel);
+      return found ? found.credits : null;
+    }
+
+    function syncSgpaCreditsWithSubjects() {
+      state.sgpaEntries = state.sgpaEntries.map(entry => {
+        const mappedCredits = getCreditsForSgpaSubject(entry.subjectName);
+        if (mappedCredits === null) {
+          return entry;
+        }
+        return {
+          ...entry,
+          credits: String(mappedCredits),
+        };
+      });
+    }
+
     function getSgpaGradeOptions(selectedGrade) {
       const options = ['<option value="">Select Grade</option>'];
       SGPA_GRADES.forEach(grade => {
         options.push(`<option value="${grade}" ${selectedGrade === grade ? "selected" : ""}>${grade}</option>`);
+      });
+      return options.join("");
+    }
+
+    function getSgpaSubjectOptions(selectedSubjectName, currentRowId) {
+      const usedSubjects = new Set(
+        state.sgpaEntries
+          .filter(entry => entry.id !== currentRowId)
+          .map(entry => entry.subjectName)
+          .filter(Boolean)
+      );
+
+      const hasSelection = Boolean(selectedSubjectName);
+      const options = [
+        `<option value="" ${hasSelection ? "" : "selected"} disabled ${hasSelection ? "hidden" : ""}>Select Subject</option>`,
+      ];
+      SGPA_SUBJECTS.forEach(subject => {
+        const value = subject.label;
+        if (usedSubjects.has(value) && value !== selectedSubjectName) {
+          return;
+        }
+        options.push(`<option value="${value}" ${selectedSubjectName === value ? "selected" : ""}>${value}</option>`);
       });
       return options.join("");
     }
@@ -1992,6 +2373,8 @@
       if (!Array.isArray(state.sgpaEntries) || state.sgpaEntries.length === 0) {
         state.sgpaEntries = getDefaultSgpaEntries();
       }
+
+      syncSgpaCreditsWithSubjects();
 
       const head = `
         <div class="sgpa-head">
@@ -2006,14 +2389,9 @@
       const rows = state.sgpaEntries.map((entry, index) => `
         <div class="sgpa-row sgpa-row-enter" data-row-id="${entry.id}">
           <div class="sgpa-idx">Subject ${index + 1}</div>
-          <input
-            type="text"
-            class="sgpa-subject"
-            autocomplete="off"
-            placeholder="Enter subject name"
-            value="${entry.subjectName || ""}"
-            data-row-id="${entry.id}"
-          />
+          <select class="sgpa-subject-select" data-row-id="${entry.id}">
+            ${getSgpaSubjectOptions(entry.subjectName || "", entry.id)}
+          </select>
           <input
             type="text"
             class="sgpa-credit"
@@ -2218,6 +2596,42 @@
       return Math.round((filled / total) * 100);
     }
 
+    function getScaleMaxValue(scaleLabel) {
+      const match = String(scaleLabel || "").match(/\/(\s*)?(\d+(\.\d+)?)/);
+      if (!match) return 0;
+      return Number(match[2]) || 0;
+    }
+
+    function getPerformanceText(percent) {
+      if (percent >= 90) return "Excellent";
+      if (percent >= 75) return "Good";
+      if (percent >= 50) return "Average";
+      return "Poor";
+    }
+
+    function renderResultVisuals(calculation, scheme) {
+      const scaleMax = getScaleMaxValue(scheme.scaleLabel);
+      const final = Number(calculation.final) || 0;
+      const percent = scaleMax > 0 ? Math.max(0, Math.min(100, (final / scaleMax) * 100)) : 0;
+      const performanceText = getPerformanceText(percent);
+
+      if (elements.marksMeter) {
+        elements.marksMeter.style.setProperty("--meter-progress", `${percent}%`);
+      }
+
+      if (elements.marksMeterValue) {
+        setUltra3DText(elements.marksMeterValue, performanceText);
+      }
+
+      if (elements.marksMeterScale) {
+        setUltra3DText(elements.marksMeterScale, `${Math.round(percent)}%`);
+      }
+
+      if (elements.gaugeNeedle) {
+        elements.gaugeNeedle.style.left = `${percent}%`;
+      }
+    }
+
     function renderSubjectCards() {
       elements.subjectGrid.innerHTML = "";
       const query = state.searchQuery.trim().toLowerCase();
@@ -2391,29 +2805,25 @@
       elements.progressFill.style.width = `${completion}%`;
       elements.progressFill.parentElement.setAttribute("aria-valuenow", String(completion));
 
+      if (elements.completionText && scheme) {
+        const filledCount = scheme.fields.filter(field => String(state.values[field.key] ?? "").trim() !== "").length;
+        setAnimatedText(elements.completionText, `${filledCount} / ${scheme.fields.length} fields filled`);
+      } else if (elements.completionText) {
+        setAnimatedText(elements.completionText, "0 / 0 fields filled");
+      }
+
+      if (elements.completionPercentText) {
+        setAnimatedText(elements.completionPercentText, `${completion}%`);
+      }
+
       if (!scheme) {
-        setAnimatedText(elements.totalEntered, "0.00");
-        setAnimatedText(elements.maxPossible, "0");
-        setAnimatedText(elements.scaledMarks, "0.00");
-        setAnimatedText(elements.finalMarks, "0.00");
         elements.resultCard.hidden = true;
         return;
       }
 
       const validation = getValidatedValues();
-      const partialTotal = scheme.fields.reduce((sum, field) => {
-        const value = Number(String(state.values[field.key] ?? "").trim());
-        if (Number.isNaN(value)) return sum;
-        return sum + value;
-      }, 0);
-
-      animateNumericText(elements.totalEntered, partialTotal, 2);
-      animateNumericText(elements.maxPossible, scheme.fields.reduce((sum, field) => sum + field.maxMarks, 0), 0);
-
       if (validation.allValid) {
         const calculation = scheme.calculate(validation.parsedValues);
-        animateNumericText(elements.scaledMarks, calculation.scaled, 2);
-        animateNumericText(elements.finalMarks, calculation.final, 2);
 
         if (!liveOnly || state.manualCalculated) {
           elements.resultCard.hidden = false;
@@ -2421,14 +2831,25 @@
           setAnimatedText(elements.resultMeta, `${subject.name} • ${getTypeLabel(subject.type)}`);
           setAnimatedText(elements.resultScore, `${toDisplay(calculation.final)} ${scheme.scaleLabel}`);
           setAnimatedText(elements.resultFormula, `Total Raw Marks: ${toDisplay(calculation.totalEntered)} / ${calculation.maxPossible}`);
+          renderResultVisuals(calculation, scheme);
           elements.copyBtn.disabled = false;
           elements.printBtn.disabled = false;
         }
       } else {
-        animateNumericText(elements.scaledMarks, 0, 2);
-        animateNumericText(elements.finalMarks, 0, 2);
         if (!liveOnly) {
           elements.resultCard.hidden = true;
+        }
+        if (elements.marksMeter) {
+          elements.marksMeter.style.setProperty("--meter-progress", "0%");
+        }
+        if (elements.marksMeterValue) {
+          setUltra3DText(elements.marksMeterValue, "--");
+        }
+        if (elements.marksMeterScale) {
+          setUltra3DText(elements.marksMeterScale, "0%");
+        }
+        if (elements.gaugeNeedle) {
+          elements.gaugeNeedle.style.left = "0%";
         }
         elements.copyBtn.disabled = true;
         elements.printBtn.disabled = true;
@@ -2574,12 +2995,24 @@
       elements.sgpaRows.addEventListener("change", event => {
         const target = event.target;
         if (!(target instanceof HTMLSelectElement)) return;
-        if (!target.classList.contains("sgpa-grade")) return;
         const rowId = target.dataset.rowId;
         if (!rowId) return;
         const row = state.sgpaEntries.find(entry => entry.id === rowId);
         if (!row) return;
-        row.grade = SGPA_GRADES.includes(target.value) ? target.value : "";
+
+        if (target.classList.contains("sgpa-grade")) {
+          row.grade = SGPA_GRADES.includes(target.value) ? target.value : "";
+        } else if (target.classList.contains("sgpa-subject-select")) {
+          row.subjectName = target.value;
+          const mappedCredits = getCreditsForSgpaSubject(target.value);
+          row.credits = mappedCredits === null ? "" : String(mappedCredits);
+          persistState();
+          renderSgpa();
+          return;
+        } else {
+          return;
+        }
+
         persistState();
         renderSgpaSummary();
       });
