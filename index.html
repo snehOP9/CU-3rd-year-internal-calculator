@@ -418,8 +418,9 @@
       color: var(--text);
       cursor: pointer;
       transition: transform 220ms var(--ease-smooth), border-color 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth), background 220ms var(--ease-smooth);
-      min-height: 98px;
+      height: 126px;
       display: grid;
+      grid-template-rows: minmax(0, 1fr) auto auto;
       gap: 6px;
       align-content: start;
       position: relative;
@@ -507,6 +508,11 @@
       line-height: 1.35;
       transition: transform 220ms var(--ease-smooth), color 220ms var(--ease-smooth), letter-spacing 220ms var(--ease-smooth);
       overflow-wrap: anywhere;
+      display: -webkit-box;
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .subject-code {
