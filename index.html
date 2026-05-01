@@ -128,6 +128,11 @@
       box-sizing: border-box;
     }
 
+    html {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
     [hidden] {
       display: none !important;
     }
@@ -173,7 +178,7 @@
     }
 
     .app-shell {
-      max-width: 1200px;
+      width: min(100%, 1200px);
       margin: 0 auto;
       padding: 0 16px 36px;
       display: grid;
@@ -209,19 +214,23 @@
       margin: 0;
       font-size: clamp(1.28rem, 2.1vw, 2rem);
       letter-spacing: 0.2px;
+      line-height: 1.18;
       background: linear-gradient(120deg, var(--text) 25%, var(--accent) 45%, var(--text) 75%);
       background-size: 200% 200%;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       animation: textSheen 5.5s linear infinite;
+      overflow-wrap: anywhere;
     }
 
     .title-wrap p {
       margin: 6px 0 0;
       color: var(--text-muted);
       font-size: 0.95rem;
+      line-height: 1.4;
       animation: subtitleFloat 7s var(--ease-smooth) infinite;
+      overflow-wrap: anywhere;
     }
 
     .theme-btn {
@@ -254,26 +263,29 @@
 
     .mode-switch {
       position: relative;
-      display: inline-flex;
+      display: inline-grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 6px;
       background: var(--surface-strong);
-      width: fit-content;
+      width: min(100%, 520px);
       overflow: hidden;
+      clip-path: inset(0 round 14px);
+      isolation: isolate;
     }
 
     .mode-pill {
       position: absolute;
-      top: 6px;
-      left: 6px;
-      height: calc(100% - 12px);
+      top: 0;
+      left: 0;
+      height: 0;
       width: 0;
       border-radius: 10px;
       background: color-mix(in srgb, var(--accent) 78%, var(--surface-strong));
       box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
-      transition: transform 280ms var(--ease-smooth), width 280ms var(--ease-smooth);
+      transition: transform 280ms var(--ease-smooth), width 280ms var(--ease-smooth), height 280ms var(--ease-smooth);
       z-index: 0;
     }
 
@@ -289,6 +301,10 @@
       padding: 8px 12px;
       cursor: pointer;
       transition: all 180ms var(--ease-smooth);
+      min-width: 0;
+      line-height: 1.25;
+      text-align: center;
+      overflow-wrap: anywhere;
     }
 
     .mode-btn:hover {
@@ -310,6 +326,8 @@
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
       padding: 16px;
+      min-width: 0;
+      max-width: 100%;
       transition: transform 220ms var(--ease-smooth), border-color 220ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth);
     }
 
@@ -370,6 +388,7 @@
     .subject-search {
       flex: 1;
       min-width: 220px;
+      max-width: 100%;
       border: 1px solid var(--border);
       border-radius: 10px;
       background: var(--input-bg);
@@ -393,6 +412,7 @@
       padding: 10px 12px;
       font-weight: 600;
       cursor: pointer;
+      min-width: 0;
       transition: transform 180ms var(--ease-smooth), border-color 180ms ease, box-shadow 180ms ease;
     }
 
@@ -410,6 +430,7 @@
 
     .subject-card {
       width: 100%;
+      max-width: 100%;
       text-align: left;
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
@@ -576,12 +597,14 @@
     .subject-meta {
       display: grid;
       gap: 4px;
+      min-width: 0;
     }
 
     .subject-meta h3 {
       margin: 0;
       font-size: 1rem;
       transition: transform 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth);
+      overflow-wrap: anywhere;
     }
 
     .subject-meta p {
@@ -589,6 +612,7 @@
       color: var(--text-muted);
       font-size: 0.9rem;
       transition: transform 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth);
+      overflow-wrap: anywhere;
     }
 
     .unconfigured-msg {
@@ -842,6 +866,9 @@
       min-width: 0;
       position: relative;
       overflow: hidden;
+      line-height: 1.25;
+      text-align: center;
+      overflow-wrap: anywhere;
     }
 
     .btn::after {
@@ -1001,13 +1028,14 @@
     .sgpa-row,
     .sgpa-head {
       display: grid;
-      grid-template-columns: 90px 1.2fr 0.9fr 0.9fr auto;
+      grid-template-columns: 90px minmax(180px, 1.35fr) minmax(110px, 0.8fr) minmax(130px, 0.9fr) minmax(86px, auto);
       gap: 8px;
       align-items: center;
       border: 1px solid var(--border);
       border-radius: 12px;
       background: var(--surface-strong);
       padding: 8px;
+      min-width: 0;
     }
 
     .sgpa-row-enter {
@@ -1040,11 +1068,30 @@
       font-weight: 700;
       color: var(--text-muted);
       text-align: center;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .sgpa-field {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .sgpa-field::before {
+      content: attr(data-label);
+      display: none;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.25px;
     }
 
     .sgpa-row input,
     .sgpa-row select {
       width: 100%;
+      min-width: 0;
       border: 1px solid var(--border);
       border-radius: 10px;
       background: var(--input-bg);
@@ -1069,6 +1116,8 @@
       padding: 8px 10px;
       font-weight: 700;
       cursor: pointer;
+      min-width: 0;
+      line-height: 1.25;
     }
 
     .sgpa-summary {
@@ -1577,6 +1626,10 @@
       .field-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       }
+      .sgpa-row,
+      .sgpa-head {
+        grid-template-columns: 72px minmax(180px, 1.3fr) minmax(96px, 0.75fr) minmax(120px, 0.85fr) minmax(82px, auto);
+      }
     }
 
     @media (max-width: 760px) {
@@ -1596,6 +1649,20 @@
       }
       .mode-btn {
         flex: 1;
+        padding: 9px 8px;
+      }
+      .subject-tools,
+      .sgpa-toolbar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .subject-search {
+        grid-column: 1 / -1;
+        min-width: 0;
+      }
+      .subject-card {
+        min-height: 112px;
+        height: auto;
       }
       .result-viz {
         grid-template-columns: 1fr;
@@ -1623,7 +1690,22 @@
       }
       .sgpa-row,
       .sgpa-head {
-        grid-template-columns: 66px 1.1fr 0.9fr 0.9fr auto;
+        grid-template-columns: 1fr 1fr;
+        align-items: stretch;
+      }
+      .sgpa-head {
+        display: none;
+      }
+      .sgpa-idx {
+        grid-column: 1 / -1;
+        text-align: left;
+        padding: 2px 2px 4px;
+      }
+      .sgpa-field::before {
+        display: block;
+      }
+      .sgpa-field:first-of-type {
+        grid-column: 1 / -1;
       }
       .header:hover,
       .panel:hover,
@@ -1637,19 +1719,53 @@
       .app-shell {
         padding: 0 12px 24px;
       }
+      .header {
+        width: calc(100% + 24px);
+        margin-left: -12px;
+        margin-right: -12px;
+      }
       .panel {
         padding: 14px;
+      }
+      .compact-panel {
+        padding: 12px;
+      }
+      .title-wrap h1 {
+        font-size: 1.15rem;
+      }
+      .title-wrap p {
+        font-size: 0.86rem;
+      }
+      .mode-switch {
+        gap: 6px;
+        padding: 5px;
+        border-radius: 12px;
+        clip-path: inset(0 round 12px);
+      }
+      .mode-pill {
+        border-radius: 9px;
+      }
+      .mode-btn {
+        font-size: 0.84rem;
+        padding: 8px 6px;
+      }
+      .subject-grid {
+        grid-template-columns: 1fr;
       }
       .field-grid,
       .actions {
         grid-template-columns: 1fr;
       }
       .sgpa-row,
-      .sgpa-head {
+      .sgpa-head,
+      .sgpa-summary {
         grid-template-columns: 1fr;
       }
       .sgpa-idx {
         text-align: left;
+      }
+      .sgpa-field:first-of-type {
+        grid-column: auto;
       }
       .sgpa-remove {
         width: 100%;
@@ -1672,9 +1788,25 @@
       .app-shell {
         padding: 0 8px 18px;
       }
+      .header {
+        width: calc(100% + 16px);
+        margin-left: -8px;
+        margin-right: -8px;
+      }
       .panel,
       .header {
         padding: 12px;
+      }
+      .mode-switch,
+      .subject-tools,
+      .sgpa-toolbar {
+        grid-template-columns: 1fr;
+      }
+      .mode-switch {
+        gap: 5px;
+      }
+      .mode-btn {
+        font-size: 0.82rem;
       }
       .section-title {
         font-size: 0.97rem;
@@ -1840,7 +1972,7 @@
   </main>
 
   <script>
-    const STORAGE_KEY = "cu-internal-calculator-state-v1";
+    const STORAGE_KEY = "cu-internal-calculator-state-v2";
     const THEMES = [
       { id: "light", label: "Light" },
       { id: "dark", label: "Dark" },
@@ -1931,6 +2063,7 @@
       { id: "adp-ios", name: "Advanced Design Principles for IOS", code: "23CSH-315", credits: 3 },
       { id: "swift-frameworks", name: "Application and Frameworks Development using Swift", code: "23CSH-311", credits: 3 },
       { id: "fsd2", name: "Full Stack Development - II", code: "23CSH-309", credits: 3 },
+      { id: "mini-project", name: "Mini Project", code: "Mini Project", credits: 1 },
     ].map(subject => ({
       ...subject,
       label: `${subject.name} (${subject.code})`,
@@ -1966,9 +2099,9 @@
       },
       aptitude: {
         scaleLabel: "/ 40",
-        formulaText: "Internal Marks = ((MST1 + MST2) / 2) + Assignment + ((Attendance / 4) × 2) + ((Surprise Test / 12) × 4) + ((Quiz / 6) × 4)",
+        formulaText: "Internal Marks = ((MST1 + MST2) / 2) + (((Assignment + Surprise Test + Quiz) / 30) x 18) + (Attendance / 2)",
         fields: [
-          { key: "assignment", label: "Assignment / PBL", maxMarks: 10 },
+          { key: "assignment", label: "Assignment / PBL", maxMarks: 12 },
           { key: "attendance", label: "Attendance Marks", maxMarks: 4 },
           { key: "mst1", label: "Mid-Semester Test-1", maxMarks: 20 },
           { key: "quiz", label: "Quiz", maxMarks: 6 },
@@ -1982,10 +2115,10 @@
           const attendance = values.attendance;
           const surprise = values.surprise;
           const quiz = values.quiz;
-          const final = ((mst1 + mst2) / 2) + assignment + ((attendance / 4) * 2) + ((surprise / 12) * 4) + ((quiz / 6) * 4);
+          const final = ((mst1 + mst2) / 2) + (((assignment + surprise + quiz) / 30) * 18) + (attendance / 2);
           return {
             totalEntered: assignment + attendance + mst1 + quiz + surprise + mst2,
-            maxPossible: 72,
+            maxPossible: 74,
             scaled: final,
             final,
           };
@@ -2274,9 +2407,11 @@
       const parentRect = activeBtn.parentElement.getBoundingClientRect();
       const activeRect = activeBtn.getBoundingClientRect();
       const offsetX = activeRect.left - parentRect.left;
+      const offsetY = activeRect.top - parentRect.top;
 
       elements.modePill.style.width = `${activeRect.width}px`;
-      elements.modePill.style.transform = `translateX(${offsetX}px)`;
+      elements.modePill.style.height = `${activeRect.height}px`;
+      elements.modePill.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     }
 
     function scheduleModePillUpdate() {
@@ -2416,22 +2551,30 @@
       const rows = state.sgpaEntries.map((entry, index) => `
         <div class="sgpa-row sgpa-row-enter" data-row-id="${entry.id}">
           <div class="sgpa-idx">Subject ${index + 1}</div>
-          <select class="sgpa-subject-select" data-row-id="${entry.id}">
-            ${getSgpaSubjectOptions(entry.subjectName || "", entry.id)}
-          </select>
-          <input
-            type="text"
-            class="sgpa-credit"
-            inputmode="decimal"
-            autocomplete="off"
-            placeholder="Credits"
-            value="${entry.credits}"
-            data-row-id="${entry.id}"
-          />
-          <select class="sgpa-grade" data-row-id="${entry.id}">
-            ${getSgpaGradeOptions(entry.grade)}
-          </select>
-          <button type="button" class="sgpa-remove" data-row-id="${entry.id}">Remove</button>
+          <div class="sgpa-field" data-label="Subject Name">
+            <select class="sgpa-subject-select" data-row-id="${entry.id}">
+              ${getSgpaSubjectOptions(entry.subjectName || "", entry.id)}
+            </select>
+          </div>
+          <div class="sgpa-field" data-label="Credits">
+            <input
+              type="text"
+              class="sgpa-credit"
+              inputmode="decimal"
+              autocomplete="off"
+              placeholder="Credits"
+              value="${entry.credits}"
+              data-row-id="${entry.id}"
+            />
+          </div>
+          <div class="sgpa-field" data-label="Grade">
+            <select class="sgpa-grade" data-row-id="${entry.id}">
+              ${getSgpaGradeOptions(entry.grade)}
+            </select>
+          </div>
+          <div class="sgpa-field" data-label="Action">
+            <button type="button" class="sgpa-remove" data-row-id="${entry.id}">Remove</button>
+          </div>
         </div>
       `).join("");
 
@@ -2731,6 +2874,14 @@
         state.values = {};
         return;
       }
+
+      // Ensure all fields from scheme are initialized in state.values
+      const defaults = buildDefaultValuesForScheme(scheme);
+      Object.keys(defaults).forEach(key => {
+        if (!(key in state.values)) {
+          state.values[key] = "";
+        }
+      });
 
       scheme.fields.forEach((field, index) => {
         const wrapper = document.createElement("div");
@@ -3096,6 +3247,9 @@
     }
 
     function initialize() {
+      // Clear old storage key to ensure fresh start
+      localStorage.removeItem("cu-internal-calculator-state-v1");
+      
       loadState();
       state.sgpaEntries = normalizeSgpaEntries(state.sgpaEntries);
       setTheme(state.theme);
