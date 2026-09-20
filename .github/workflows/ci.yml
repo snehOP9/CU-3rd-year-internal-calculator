@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-site:
+    name: Static site check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Parse HTML and verify entry point
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+
+          path = Path("index.html")
+          if not path.is_file():
+              raise SystemExit("index.html is missing")
+
+          html = path.read_text(encoding="utf-8")
+          if "<!doctype html" not in html.lower():
+              raise SystemExit("index.html is missing a doctype")
+
+          parser = HTMLParser()
+          parser.feed(html)
+          parser.close()
+
+          if "<script" not in html.lower():
+              raise SystemExit("index.html has no script block or script reference")
+
+          print("Static site entry point parsed successfully")
+          PY
