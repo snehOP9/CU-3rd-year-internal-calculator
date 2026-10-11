@@ -45,3 +45,9 @@ No build tools required.
 - Multi-semester profile support
 - PDF layout customization beyond print dialog
 - Backend sync for saved attempts
+
+## Keyboard and assistive technology support
+
+The calculator mode selector uses ordinary buttons with `aria-pressed` rather than declaring a tab system without the required arrow-key behavior. Use **Tab** to reach each mode button and **Enter** or **Space** to select it. Subject search and dynamically added SGPA rows expose accessible control names. Marks inputs expose their validation state (`aria-invalid`) and associate errors with their fields.
+
+The basic markup checks run via `python -m unittest discover -s tests -p 'test_*.py' -v`; they do **not** replace manual keyboard and screen-reader regression tests. Verify that all mode changes, subject selections, invalid marks, SGPA row addition/removal, and result actions work without a mouse.
