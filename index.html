@@ -2906,9 +2906,10 @@
             placeholder="0 - ${field.maxMarks}"
             value="${value}"
             aria-describedby="${field.key}-error"
+            aria-invalid="${Boolean(errorMessage)}"
             class="${errorMessage ? "invalid" : ""}"
           />
-          <p class="error-msg" id="${field.key}-error">${errorMessage}</p>
+          <p class="error-msg" id="${field.key}-error" aria-live="polite">${errorMessage}</p>
         `;
 
         const input = wrapper.querySelector("input");
@@ -2958,6 +2959,7 @@
         if (!input || !error) return;
         const message = state.errors[field.key] || "";
         input.classList.toggle("invalid", Boolean(message));
+        input.setAttribute("aria-invalid", String(Boolean(message)));
         error.textContent = message;
       });
     }
