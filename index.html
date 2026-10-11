@@ -1854,10 +1854,10 @@
     </header>
 
     <section class="panel compact-panel" aria-label="Calculator mode selector">
-      <div class="mode-switch" role="tablist" aria-label="Calculator mode">
+      <div class="mode-switch" role="group" aria-label="Calculator mode">
         <span class="mode-pill" id="modePill" aria-hidden="true"></span>
-        <button type="button" class="mode-btn active" id="internalModeBtn" role="tab" aria-selected="true">Internal Calculator</button>
-        <button type="button" class="mode-btn" id="sgpaModeBtn" role="tab" aria-selected="false">SGPA Calculator</button>
+        <button type="button" class="mode-btn active" id="internalModeBtn" aria-pressed="true">Internal Calculator</button>
+        <button type="button" class="mode-btn" id="sgpaModeBtn" aria-pressed="false">SGPA Calculator</button>
       </div>
     </section>
 
@@ -2640,8 +2640,8 @@
 
       elements.internalModeBtn.classList.toggle("active", isInternalMode);
       elements.sgpaModeBtn.classList.toggle("active", !isInternalMode);
-      elements.internalModeBtn.setAttribute("aria-selected", String(isInternalMode));
-      elements.sgpaModeBtn.setAttribute("aria-selected", String(!isInternalMode));
+      elements.internalModeBtn.setAttribute("aria-pressed", String(isInternalMode));
+      elements.sgpaModeBtn.setAttribute("aria-pressed", String(!isInternalMode));
 
       if (isInternalMode) {
         renderSummary(!state.autoCalculate);
