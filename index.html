@@ -1865,7 +1865,7 @@
       <h2 class="section-title" id="subjectsHeading">Subject Selection</h2>
       <p class="subtext">Select your subject to auto-load the right marking scheme.</p>
       <div class="subject-tools">
-        <input id="subjectSearch" class="subject-search" type="search" placeholder="Search subject by name or code..." autocomplete="off" />
+        <input id="subjectSearch" class="subject-search" type="search" aria-label="Search subjects by name or code" placeholder="Search subject by name or code..." autocomplete="off" />
         <button class="subject-clear-btn" id="subjectSearchClear" type="button">Clear</button>
         <button class="subject-clear-btn" id="changeSubjectBtn" type="button" hidden>Change Subject</button>
       </div>
@@ -2552,7 +2552,7 @@
         <div class="sgpa-row sgpa-row-enter" data-row-id="${entry.id}">
           <div class="sgpa-idx">Subject ${index + 1}</div>
           <div class="sgpa-field" data-label="Subject Name">
-            <select class="sgpa-subject-select" data-row-id="${entry.id}">
+            <select class="sgpa-subject-select" aria-label="Subject name for row ${index + 1}" data-row-id="${entry.id}">
               ${getSgpaSubjectOptions(entry.subjectName || "", entry.id)}
             </select>
           </div>
@@ -2560,6 +2560,7 @@
             <input
               type="text"
               class="sgpa-credit"
+              aria-label="Credits for row ${index + 1}"
               inputmode="decimal"
               autocomplete="off"
               placeholder="Credits"
@@ -2568,12 +2569,12 @@
             />
           </div>
           <div class="sgpa-field" data-label="Grade">
-            <select class="sgpa-grade" data-row-id="${entry.id}">
+            <select class="sgpa-grade" aria-label="Grade for row ${index + 1}" data-row-id="${entry.id}">
               ${getSgpaGradeOptions(entry.grade)}
             </select>
           </div>
           <div class="sgpa-field" data-label="Action">
-            <button type="button" class="sgpa-remove" data-row-id="${entry.id}">Remove</button>
+            <button type="button" class="sgpa-remove" aria-label="Remove subject row ${index + 1}" data-row-id="${entry.id}">Remove</button>
           </div>
         </div>
       `).join("");
@@ -2821,6 +2822,7 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = `subject-card${subject.id === state.selectedSubjectId ? " active" : ""}`;
+        button.setAttribute("aria-pressed", String(subject.id === state.selectedSubjectId));
         button.innerHTML = `
           <p class="subject-name">${subject.name}</p>
           <p class="subject-code">${subject.code}</p>
