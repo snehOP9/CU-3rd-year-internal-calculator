@@ -42,3 +42,5 @@ jobs:
 
           print("Static site entry point parsed successfully")
           PY
+      - name: Check interactive control accessibility markup
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
