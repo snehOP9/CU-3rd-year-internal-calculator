@@ -48,7 +48,7 @@ class AccessibilityMarkupTests(unittest.TestCase):
         self.assertIn('window.matchMedia("(prefers-reduced-motion: reduce)").matches', HTML)
         self.assertIn('if (prefersReducedMotion() || Math.abs(target - current) < 0.0001)', HTML)
         self.assertIn('if (!element || element.hidden || prefersReducedMotion()) return;', HTML)
-        self.assertIn('if (prefersReducedMotion()) {\\n          removeRow();', HTML)
+        self.assertIn('if (prefersReducedMotion()) {\n          removeRow();', HTML)
         self.assertIn('setTimeout(removeRow, 180);', HTML)
 
     def test_dynamic_sgpa_fields_have_individual_labels(self):
