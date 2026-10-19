@@ -2358,11 +2358,16 @@
       return Number.isFinite(parsed) ? parsed : 0;
     }
 
+    function prefersReducedMotion() {
+      return typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
     function animateNumericText(element, value, decimals = 2) {
       if (!element) return;
       const target = toNumber(value);
       const current = toNumber(element.dataset.currentValue ?? element.textContent);
-      if (Math.abs(target - current) < 0.0001) {
+      if (prefersReducedMotion() || Math.abs(target - current) < 0.0001) {
+        element.classList.remove("value-pop", "text-switch");
         element.textContent = target.toFixed(decimals);
         element.dataset.currentValue = String(target);
         return;
@@ -2394,7 +2399,7 @@
     }
 
     function triggerSectionEnter(element) {
-      if (!element || element.hidden) return;
+      if (!element || element.hidden || prefersReducedMotion()) return;
       element.classList.remove("section-enter");
       void element.offsetWidth;
       element.classList.add("section-enter");
@@ -3199,18 +3204,23 @@
         const rowId = target.dataset.rowId;
         if (!rowId) return;
         const rowElement = target.closest(".sgpa-row");
-        if (rowElement) {
-          rowElement.classList.remove("sgpa-row-enter");
-          rowElement.classList.add("sgpa-row-exit");
-        }
-        setTimeout(() => {
+        const removeRow = () => {
           state.sgpaEntries = state.sgpaEntries.filter(entry => entry.id !== rowId);
           if (state.sgpaEntries.length === 0) {
             state.sgpaEntries = getDefaultSgpaEntries();
           }
           persistState();
           renderSgpa();
-        }, 180);
+        };
+        if (prefersReducedMotion()) {
+          removeRow();
+        } else {
+          if (rowElement) {
+            rowElement.classList.remove("sgpa-row-enter");
+            rowElement.classList.add("sgpa-row-exit");
+          }
+          setTimeout(removeRow, 180);
+        }
       });
       window.addEventListener("resize", scheduleModePillUpdate);
       document.addEventListener("keydown", event => {
